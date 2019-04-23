@@ -30,6 +30,7 @@ def get_type(invoer):
 
 
 def get_satalliet(invoer):
+    get_type(invoer)
     if 'rsat2' in invoer:
         return 'rsatxf'
     elif 'rsat3' in invoer:
@@ -37,13 +38,23 @@ def get_satalliet(invoer):
     else:
         return 'env'
 
-#bestand('prov_overijssel_eindhoven_env_dsc_v2_ds_punten')
 csv = 'prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten'
 hoi = bestand(csv)
-doei = get_type(hoi)
-print(doei)
-hallo = get_satalliet(hoi)
-print(hallo)
+#print(get_type(hoi))
+
+def sql(csv):
+    type = get_type(csv)
+    sat = get_satalliet(csv)
+    string = "SELECT sat_id FROM satalliet WHERE sat_naam = "+sat+" AND type ="+type
+    resultaat = pd.read_sql(string, engine)
+    return resultaat
+
+#bestand('prov_overijssel_eindhoven_env_dsc_v2_ds_punten')
+#print(sql(csv,csv))
+#doei = get_type(hoi)
+#print(doei)
+#hallo = get_satalliet(hoi)
+#print(hallo)
 #txt = txt.replace("_", " ")
 #print(txt)
 
