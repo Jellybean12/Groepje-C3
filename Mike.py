@@ -36,5 +36,7 @@ def puntenverzamelaar2 (dataset,meters):
         minlon = puntenlijst.append(dataset.loc[:, 'pnt_lon'] - GradenNaarMeters(meters))
         maxlan = puntenlijst.append(dataset.loc[:, 'pnt_lat'] + GradenNaarMeters(meters))
         minlan = puntenlijst.append(dataset.loc[:, 'pnt_lat'] - GradenNaarMeters(meters))
-
+    return(puntenlijst)
 print(puntenverzamelaar2(puntenfile, 50))
+
+#print(dataset.loc[:, 'pnt_lat'] - GradenNaarMeters(meters))
