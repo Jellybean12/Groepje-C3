@@ -29,15 +29,15 @@ puntenfile = pd.read_csv('prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punt
 #for row in puntenfile:
 #    print(row)
 
-def puntenverzamelaar2 (dataset):
+def puntenverzamelaar2 (dataset,meters):
     puntenlijst = list()
     for row in dataset:
-        puntenlijst.append(dataset.loc[:,'pnt_id'])
-        puntenlijst.append(dataset.loc[:,'pnt_lon'])
-        puntenlijst.append(dataset.loc[:,'pnt_lon'])
-        puntenlijst.append(dataset.loc[:,'pnt_lat'])
-        puntenlijst.append(dataset.loc[:,'pnt_lat'])
+        id=puntenlijst.append(dataset.loc[:,'pnt_id'])
+        maxlon=puntenlijst.append(dataset.loc[:,'pnt_lon']+GradenNaarMeters(meters))
+        minlon=puntenlijst.append(dataset.loc[:,'pnt_lon']-GradenNaarMeters(meters))
+        maxlan=puntenlijst.append(dataset.loc[:,'pnt_lat']+GradenNaarMeters(meters))
+        minlan=puntenlijst.append(dataset.loc[:,'pnt_lat']-GradenNaarMeters(meters))
     return(puntenlijst)
 
-print(puntenverzamelaar2(puntenfile))
+print(puntenverzamelaar2(puntenfile,50))
 #print(puntenfile.loc[:,'pnt_id'])
