@@ -8,32 +8,37 @@ def bestand(bestandsnaam):
     nieuwbestand = bestandsnaam.replace("_", " ")
     return nieuwbestand
 
-csv = 'prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten'
+csv = 'prov_overijssel_nl_east_env_dsc_v2_ps_punten'
 hoi = bestand(csv)
 
 def get_type(invoer):
     #Deze functie bepaalt het type(HPA,HPD etc) op basis van de invoer
         #Als ascending, ds en hoge in invoer zit, return HDA
-        if 'asc' in invoer:
-            if 'ds' in invoer:
-                if 'hoge' in invoer:
+        if (' env ' in invoer or ' v3 ' in invoer):
+            if ' ds ' in invoer:
+                return 'DD'
+            else:
+                return 'PD'
+        elif ' asc ' in invoer:
+            if ' ds ' in invoer:
+                if ' hoge ' in invoer:
                     return 'HDA'
                 #Als dit niet zo is, return LDA
                 else:
                     return 'LDA'
             #Als er hoge, ps en asc inzit, return HPA
-            elif 'hoge' in invoer:
+            elif ' hoge ' in invoer:
                 return 'HPA'
             else:
                 return 'LPA'
         #Als er ds, hoge en andere lage inzit, return HDD of LDD
-        elif 'ds' in invoer:
-            if 'hoge' in invoer:
+        elif ' ds ' in invoer:
+            if ' hoge ' in invoer:
                 return 'HDD'
             else:
                 return 'LDD'
         #Als er hoge inzit, return HPD
-        elif 'hoge' in invoer:
+        elif ' hoge ' in invoer:
             return 'HPD'
         #anders, return LPD
         else:
@@ -66,5 +71,5 @@ def sql(csv):
     resultaat = pd.read_sql(string, engine)
     print(resultaat)
 
-print(sql(hoi))
+print(get_type(hoi))
 
