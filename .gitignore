@@ -1,0 +1,8 @@
+# gitignore
+
+# Heel het mapje .idea
+.idea/**
+# Heel het mapje .ipynb_checkpoints
+.ipynb_checkpoints/**
+# Een file die Mike met z'n Apple krijgt
+.DS_store*
