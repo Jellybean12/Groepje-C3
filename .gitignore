@@ -1,0 +1,6 @@
+# gitignore
+
+# Heel het mapje .idea
+.idea/**
+# Heel het mapje .ipynb_checkpoints
+.ipynb_checkpoints/**
