@@ -5,4 +5,9 @@ def puntenverzamelaar(puntfile,naam):
     puntenfile = pd.read_csv(puntfile)
     # id file
     idfile = pd.dataframe()
-    idfile['naam','closest_point_id'] = match.append(lambda row: find_point(row['pnt_lat'], row['pnt_lon']), axis=1)
+    for naam in idfile:
+        for punt in puntenfile:
+            maxlon = punt +
+            minlon =
+            maxlan =
+            minlan =
