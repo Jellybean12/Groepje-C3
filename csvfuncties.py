@@ -3,7 +3,6 @@ from sqlalchemy import create_engine
 import numpy as np
 import re
 
-
 def bestand(bestandsnaam):
     #Deze funtie verwijderd de lage streepjes uit een bestandsnaam
     nieuwbestand = bestandsnaam.replace("_", " ")
