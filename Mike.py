@@ -9,7 +9,7 @@ def puntenverzamelaar(puntfile,meters):
     #laad de punten file in
     puntenfile = pd.read_csv(puntfile)
     # id file
-    idfile = ()
+    idfile = []
     for row in puntenfile:
         maxlon = row('pnt_lon') + GradenNaarMeters(meters)
         minlon = row('pnt_lon') - GradenNaarMeters(meters)
@@ -19,4 +19,12 @@ def puntenverzamelaar(puntfile,meters):
         idfile.append(id,maxlon,minlon,maxlan,minlan)
     return print(idfile)
 
-puntenverzamelaar('prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv',50)
+#puntenverzamelaar('prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv',50)
+puntenfile = pd.read_csv('prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv')
+#for row in puntenfile:
+#    print(row)
+#print(puntenfile.head())
+pnt_id = puntenfile['pnt_id']
+print(puntenfile.dtypes)
+#for row in puntenfile:
+#    print(row)
