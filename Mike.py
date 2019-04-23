@@ -24,7 +24,20 @@ puntenfile = pd.read_csv('prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punt
 #for row in puntenfile:
 #    print(row)
 #print(puntenfile.head())
-pnt_id = puntenfile['pnt_id']
-print(puntenfile.dtypes)
+#pnt_id = puntenfile['pnt_id']
+#print(puntenfile.dtypes)
 #for row in puntenfile:
 #    print(row)
+
+def puntenverzamelaar2 (dataset):
+    puntenlijst = list()
+    for row in dataset:
+        puntenlijst.append(dataset.loc[:,'pnt_id'])
+        puntenlijst.append(dataset.loc[:,'pnt_lon'])
+        puntenlijst.append(dataset.loc[:,'pnt_lon'])
+        puntenlijst.append(dataset.loc[:,'pnt_lat'])
+        puntenlijst.append(dataset.loc[:,'pnt_lat'])
+    return(puntenlijst)
+
+print(puntenverzamelaar2(puntenfile))
+#print(puntenfile.loc[:,'pnt_id'])
