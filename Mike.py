@@ -28,3 +28,13 @@ pnt_id = puntenfile['pnt_id']
 print(puntenfile.dtypes)
 #for row in puntenfile:
 #    print(row)
+def puntenverzamelaar2 (dataset,meters):
+    puntenlijst = list()
+    for row in dataset:
+        id = puntenlijst.append(dataset.loc[:, 'pnt_id'])
+        maxlon = puntenlijst.append(dataset.loc[:, 'pnt_lon'] + GradenNaarMeters(meters))
+        minlon = puntenlijst.append(dataset.loc[:, 'pnt_lon'] - GradenNaarMeters(meters))
+        maxlan = puntenlijst.append(dataset.loc[:, 'pnt_lat'] + GradenNaarMeters(meters))
+        minlan = puntenlijst.append(dataset.loc[:, 'pnt_lat'] - GradenNaarMeters(meters))
+
+print(puntenverzamelaar2(puntenfile, 50))
