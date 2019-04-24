@@ -11,16 +11,24 @@ def GradenNaarMeters(meters):
 def puntenverzamelaar (dataset,meters):
     #eindlist= []
     eindlist= pd.read_csv('csv boor.csv')
+
     #een for loop zodat alle rows in een dataframe wordt gebruikt om meer
     for row in dataset:
-        eindlist["BoorID"] = dataset.loc[:, 'Boring']
-        eindlist["Locatie"] = dataset.loc[:, 'Locatie']
-        eindlist["MaxLon"] = dataset.loc[:, 'pnt_lon'] + GradenNaarMeters(meters)
-        eindlist["MinLon"] = dataset.loc[:, 'pnt_lon'] - GradenNaarMeters(meters)
-        eindlist["MaxLat"] = dataset.loc[:, 'pnt_lat'] + GradenNaarMeters(meters)
-        eindlist["MinLat"] = dataset.loc[:, 'pnt_lat'] - GradenNaarMeters(meters)
+        boorid = eindlist["BoorID"] = dataset.loc[:, 'Boring']
+        locatie = eindlist["Locatie"] = dataset.loc[:, 'Locatie']
+        maxlon = eindlist["MaxLon"] = dataset.loc[:, 'pnt_lon'] + GradenNaarMeters(meters)
+        minlon = eindlist["MinLon"] = dataset.loc[:, 'pnt_lon'] - GradenNaarMeters(meters)
+        maxlat = eindlist["MaxLat"] = dataset.loc[:, 'pnt_lat'] + GradenNaarMeters(meters)
+        minlat = eindlist["MinLat"] = dataset.loc[:, 'pnt_lat'] - GradenNaarMeters(meters)
     return print(eindlist)
-print(puntenverzamelaar(inactieveputtendf, 50))
+lijstje = puntenverzamelaar(inactieveputtendf, 50)
+print(lijstje)
+
+puntenlist = pd.read_csv('prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv')
+punten = []
+for row in puntenlist:
+    if puntenlist['pnt_lon'] in range(lijstje['MinLon'], lijstje['MaxLon']) and puntenlist['pnt_lat'] in range(lijstje['MinLat'], lijstje['MaxLat']):
+        punten.append(puntenlist['pnt_id'])
 
 
 
