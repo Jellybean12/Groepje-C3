@@ -26,19 +26,20 @@ print(lijstje)
 
 puntenlist = pd.read_csv('prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv')
 
-punten = []
-gekoppeldlijst = pd.read_csv('Punten gekoppeld aan zoutcaravens.csv')
-for index, row in puntenlist.iterrows():
-    for lijstje_index, lijstje_row in lijstje.iterrows() :
-        if row['pnt_lon'] <= lijstje_row['MaxLon'] and row['pnt_lon'] >= lijstje_row['MinLon'] and  row['pnt_lat'] <= lijstje_row['MaxLat'] and row['pnt_lat'] >= lijstje_row['MinLat'] :
-            gekoppeldlijst["BoorID"] = (lijstje_row['BoorID'])
-            gekoppeldlijst["Locatie"] = (lijstje_row['Locatie'])
-            gekoppeldlijst["MinLon"] = (lijstje_row['MinLon'])
-            gekoppeldlijst["MaxLon"] = (lijstje_row['MaxLon'])
-            gekoppeldlijst["MinLat"] = (lijstje_row['MinLat'])
-            gekoppeldlijst["MaxLat"] = (lijstje_row['MaxLat'])
-            gekoppeldlijst["pnt_id"] = (row['pnt_id'])
-            gekoppeldlijst["pnt_lon"] = (row['pnt_lon'])
-            gekoppeldlijst["pnt_lat"] = (row['pnt_lat'])
-
-print(gekoppeldlijst)
+def kopel():
+    punten = []
+    gekoppeldlijst = pd.read_csv('Punten gekoppeld aan zoutcaravens.csv')
+    for index, row in puntenlist.iterrows():
+        for lijstje_index, lijstje_row in lijstje.iterrows() :
+            if row['pnt_lon'] <= lijstje_row['MaxLon'] and row['pnt_lon'] >= lijstje_row['MinLon'] and  row['pnt_lat'] <= lijstje_row['MaxLat'] and row['pnt_lat'] >= lijstje_row['MinLat'] :
+                gekoppeldlijst["BoorID"] = lijstje_row['BoorID']
+                gekoppeldlijst["Locatie"] = lijstje_row['Locatie']
+                gekoppeldlijst["MinLon"] = lijstje_row['MinLon']
+                gekoppeldlijst["MaxLon"] = lijstje_row['MaxLon']
+                gekoppeldlijst["MinLat"] = lijstje_row['MinLat']
+                gekoppeldlijst["MaxLat"] = lijstje_row['MaxLat']
+                gekoppeldlijst["pnt_id"] = row['pnt_id']
+                gekoppeldlijst["pnt_lon"] = row['pnt_lon']
+                gekoppeldlijst["pnt_lat"] = row['pnt_lat']
+    return print(gekoppeldlijst)
+kopel()
