@@ -15,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Mike.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="44" column="45" selection-start-line="44" selection-start-column="45" selection-end-line="44" selection-end-column="45" />
+            <state relative-caret-position="215">
+              <caret line="58" column="54" lean-forward="true" selection-end-line="73" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -171,17 +171,6 @@
     <MESSAGE value="first file" />
     <option name="LAST_COMMIT_MESSAGE" value="first file" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Mike.py</url>
-          <line>22</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/School/Jaar 3/Project data science/Data/Zoutcarverne/data/prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv" />
     <entry file="file://$PROJECT_DIR$/prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv">
@@ -196,8 +185,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Mike.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="44" column="45" selection-start-line="44" selection-start-column="45" selection-end-line="44" selection-end-column="45" />
+        <state relative-caret-position="215">
+          <caret line="58" column="54" lean-forward="true" selection-end-line="73" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
