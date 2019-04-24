@@ -8,3 +8,5 @@
 venv/**
 # Een file die Mike met z'n Apple krijgt
 .DS_store*
+# Heel de map met stuff die je kan ignoren waarin ik dingen probeer
+ignorestuffvanfien/**
