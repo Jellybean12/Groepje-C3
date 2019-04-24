@@ -6,3 +6,5 @@
 .ipynb_checkpoints/**
 # Een file die Mike met z'n Apple krijgt
 .DS_store*
+# Stuff van Fien
+ignorestuffvanfien/**
