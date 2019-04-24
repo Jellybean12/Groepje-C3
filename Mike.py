@@ -20,23 +20,25 @@ def puntenverzamelaar(puntfile,meters):
     return print(idfile)
 
 #puntenverzamelaar('prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv',50)
-puntenfile = pd.read_csv('prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv')
+puntenfile = pd.read_csv('inactieve_putten - page 1 2.csv')
 #for row in puntenfile:
 #    print(row)
 #print(puntenfile.head())
-pnt_id = puntenfile['pnt_id']
-print(puntenfile.dtypes)
+#pnt_id = puntenfile['pnt_id']
+#print(puntenfile.dtypes)
 #for row in puntenfile:
 #    print(row)
-def puntenverzamelaar2 (dataset,meters):
-    puntenlijst = list()
-    for row in dataset:
-        id = puntenlijst.append(dataset.loc[:, 'pnt_id'])
-        maxlon = puntenlijst.append(dataset.loc[:, 'pnt_lon'] + GradenNaarMeters(meters))
-        minlon = puntenlijst.append(dataset.loc[:, 'pnt_lon'] - GradenNaarMeters(meters))
-        maxlan = puntenlijst.append(dataset.loc[:, 'pnt_lat'] + GradenNaarMeters(meters))
-        minlan = puntenlijst.append(dataset.loc[:, 'pnt_lat'] - GradenNaarMeters(meters))
-    return(puntenlijst)
-print(puntenverzamelaar2(puntenfile, 50))
+inactieveputtendf= pd.read_csv('inactieve_putten - page 1 2.csv',sep=',',)
 
+def puntenverzamelaar2 (dataset,meters):
+    eindlist = list()
+    for row in dataset:
+        #id = puntenlijst.append(dataset.loc[:, 'pnt_id'])
+        maxlon = eindlist.append(dataset.loc[:, 'pnt_lon'] + GradenNaarMeters(meters))
+        minlon = eindlist.append(dataset.loc[:, 'pnt_lon'] - GradenNaarMeters(meters))
+        maxlan = eindlist.append(dataset.loc[:, 'pnt_lat'] + GradenNaarMeters(meters))
+        minlan = eindlist.append(dataset.loc[:, 'pnt_lat'] - GradenNaarMeters(meters))
+    return print(eindlist)
+print(puntenverzamelaar2(inactieveputtendf, 50))
+#print(inactieveputtendf.head())
 #print(dataset.loc[:, 'pnt_lat'] - GradenNaarMeters(meters))
