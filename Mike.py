@@ -20,15 +20,22 @@ def puntenverzamelaar (dataset,meters):
         minlon = eindlist["MinLon"] = dataset.loc[:, 'pnt_lon'] - GradenNaarMeters(meters)
         maxlat = eindlist["MaxLat"] = dataset.loc[:, 'pnt_lat'] + GradenNaarMeters(meters)
         minlat = eindlist["MinLat"] = dataset.loc[:, 'pnt_lat'] - GradenNaarMeters(meters)
-    return print(eindlist)
-lijstje = puntenverzamelaar(inactieveputtendf, 50)
+    return eindlist
+lijstje = puntenverzamelaar(inactieveputtendf, 100)
 print(lijstje)
 
 puntenlist = pd.read_csv('prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv')
+
 punten = []
-for row in puntenlist:
-    if puntenlist['pnt_lon'] in range(lijstje['MinLon'], lijstje['MaxLon']) and puntenlist['pnt_lat'] in range(lijstje['MinLat'], lijstje['MaxLat']):
-        punten.append(puntenlist['pnt_id'])
+
+for index, row in puntenlist.iterrows():
+    for lijstje_index, lijstje_row in lijstje.iterrows() :
+        if row['pnt_lon'] <= lijstje_row['MaxLon'] and row['pnt_lon'] >= lijstje_row['MinLon'] and  row['pnt_lat'] <= lijstje_row['MaxLat'] and row['pnt_lat'] >= lijstje_row['MinLat'] :
+            print(lijstje_row['Locatie'])
+            print(row['pnt_id'])
+            print(row['pnt_lon'])
+            print(row['pnt_lat'])
+
 
 
 
