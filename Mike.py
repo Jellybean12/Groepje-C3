@@ -1,9 +1,15 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from sqlalchemy import create_engine
 
 #testdatafile
 inactieveputtendf= pd.read_csv('inactieve_putten - page 1 2.csv',sep=',')
 puntenlist = pd.read_csv('prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv')
+
+###########SQL stukje###########
+#engine = create_engine('postgresql://postgres:Welkom01!@10.30.1.10:5432/POC')
+#sqldataset = pd.read_sql_query('Select * From locatie',engine)
+#print(sqldataset)
 
 def radiusbepaler (dataset,meters):
     #radiusbepaler zorgt ervoor dat er een dataframe gevult met de boorlocaties en de desbetreffende radius in meters wordt gereturned
@@ -41,5 +47,6 @@ def meetpuntenkoppelen(datasetmeetpunten,datasetboorlocatie,radius):
     return pd.DataFrame(punten,columns=['boorid','locatie','minlon','maxlon','minlat','maxlat','pnt_id','pnt_lon','pnt_lat'])
 
 
-print(meetpuntenkoppelen(puntenlist,inactieveputtendf, 150))
-#meetpuntenkoppelen().to_csv('test.csv',index=False)
+#print(meetpuntenkoppelen(sqldataset,inactieveputtendf, 1500000))
+def koppelmeetpuntenmetboorlocaties(datasetmeetpunten,datasetboorlocatie,radius,bestandsnaam,)
+    meetpuntenkoppelen(datasetmeetpunten,datasetboorlocatie,radius).to_csv((bestandsnaam'.csv',index=False)
