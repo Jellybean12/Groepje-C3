@@ -10,3 +10,5 @@ venv/**
 .DS_store*
 # Heel de map met stuff die je kan ignoren waarin ik dingen probeer
 ignorestuffvanfien/**
+
+.idea/workspace.xml
