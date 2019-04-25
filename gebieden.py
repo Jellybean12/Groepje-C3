@@ -49,3 +49,5 @@ voorbeeld['Gebied'] = np.select(conditie, keuze, default=0)
 #Scatterplot maken
 scatter = sns.scatterplot(x='pnt_lon', y='pnt_lat', hue='Gebied', data=voorbeeld, legend='full')
 plt.show(scatter)
+
+hallo
