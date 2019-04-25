@@ -12,7 +12,7 @@ def schoon(naam):
     return data
 
 #Functie aanroepen met csv bestand
-voorbeeld = schoon('prov_overijssel_groningen_rsat2_asc_xf_v2_ds_lage_punten.csv')
+voorbeeld = schoon('prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv')
 
 #Condities aangeven
 conditie = [
