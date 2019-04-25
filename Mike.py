@@ -32,6 +32,8 @@ def kopel():
     for index, row in puntenlist.iterrows():
         for lijstje_index, lijstje_row in lijstje.iterrows() :
             if row['pnt_lon'] <= lijstje_row['MaxLon'] and row['pnt_lon'] >= lijstje_row['MinLon'] and  row['pnt_lat'] <= lijstje_row['MaxLat'] and row['pnt_lat'] >= lijstje_row['MinLat'] :
+                print(lijstje_row['Locatie'])
+                print(lijstje_row['BoorID'])
                 gekoppeldlijst["BoorID"] = lijstje_row['BoorID']
                 gekoppeldlijst["Locatie"] = lijstje_row['Locatie']
                 gekoppeldlijst["MinLon"] = lijstje_row['MinLon']
