@@ -1,50 +1,45 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-#datafile
-inactieveputtendf= pd.read_csv('inactieve_putten - page 1 2.csv',sep=',',)
-
-def GradenNaarMeters(meters):
-   graden=(meters/30.92)/3600
-   return graden
-
-def puntenverzamelaar (dataset,meters):
-    #eindlist= []
-    eindlist= pd.read_csv('csv boor.csv')
-
-    #een for loop zodat alle rows in een dataframe wordt gebruikt om meer
-    for row in dataset:
-        boorid = eindlist["BoorID"] = dataset.loc[:, 'Boring']
-        locatie = eindlist["Locatie"] = dataset.loc[:, 'Locatie']
-        maxlon = eindlist["MaxLon"] = dataset.loc[:, 'pnt_lon'] + GradenNaarMeters(meters)
-        minlon = eindlist["MinLon"] = dataset.loc[:, 'pnt_lon'] - GradenNaarMeters(meters)
-        maxlat = eindlist["MaxLat"] = dataset.loc[:, 'pnt_lat'] + GradenNaarMeters(meters)
-        minlat = eindlist["MinLat"] = dataset.loc[:, 'pnt_lat'] - GradenNaarMeters(meters)
-    return eindlist
-lijstje = puntenverzamelaar(inactieveputtendf, 150)
-print(lijstje)
-
+#testdatafile
+inactieveputtendf= pd.read_csv('inactieve_putten - page 1 2.csv',sep=',')
 puntenlist = pd.read_csv('prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv')
 
-def kopel():
+def radiusbepaler (dataset,meters):
+    #radiusbepaler zorgt ervoor dat er een dataframe gevult met de boorlocaties en de desbetreffende radius in meters wordt gereturned
+    endlist= pd.DataFrame()
+    def GradenNaarMeters(meters):
+        graden = (meters / 30.92) / 3600
+        return graden
+    for row in dataset:
+        boorid = endlist["BoorID"] = dataset.loc[:, 'Boring']
+        locatie = endlist["Locatie"] = dataset.loc[:, 'Locatie']
+        maxlon = endlist["MaxLon"] = dataset.loc[:, 'pnt_lon'] + GradenNaarMeters(meters)
+        minlon = endlist["MinLon"] = dataset.loc[:, 'pnt_lon'] - GradenNaarMeters(meters)
+        maxlat = endlist["MaxLat"] = dataset.loc[:, 'pnt_lat'] + GradenNaarMeters(meters)
+        minlat = endlist["MinLat"] = dataset.loc[:, 'pnt_lat'] - GradenNaarMeters(meters)
+    return endlist
+
+
+def meetpuntenkoppelen(datasetmeetpunten,datasetboorlocatie,radius):
+    #deze functie zorgt ervoor dat de meetpunten gekoppeld worden aan een boorlocatie zodra die binnen de opgegeven radius zit
     punten = []
-    gekoppeldlijst = pd.read_csv('Punten gekoppeld aan zoutcaravens.csv')
-    #gekoppeldlijst = pd.DataFrame(columns=["Locatie"])
-    for index, row in puntenlist.iterrows():
-        for lijstje_index, lijstje_row in lijstje.iterrows() :
+    meting = radiusbepaler(datasetboorlocatie,radius)
+    for index, row in datasetmeetpunten.iterrows():
+        for lijstje_index, lijstje_row in meting.iterrows() :
             if row['pnt_lon'] <= lijstje_row['MaxLon'] and row['pnt_lon'] >= lijstje_row['MinLon'] and  row['pnt_lat'] <= lijstje_row['MaxLat'] and row['pnt_lat'] >= lijstje_row['MinLat'] :
-                #print(lijstje_row['Locatie'])
-                #print(lijstje_row['BoorID'])
-                boorid = gekoppeldlijst["BoorID"] = lijstje_row['BoorID']
-                locatie = gekoppeldlijst["Locatie"] = lijstje_row['Locatie']
-                minlon = gekoppeldlijst["MinLon"] = lijstje_row['MinLon']
-                maxlon = gekoppeldlijst["MaxLon"] = lijstje_row['MaxLon']
-                minlat = gekoppeldlijst["MinLat"] = lijstje_row['MinLat']
-                maxlat = gekoppeldlijst["MaxLat"] = lijstje_row['MaxLat']
-                pnt_id = gekoppeldlijst["pnt_id"] = row['pnt_id']
+                boorid = lijstje_row['BoorID']
+                locatie = lijstje_row['Locatie']
+                minlon = lijstje_row['MinLon']
+                maxlon = lijstje_row['MaxLon']
+                minlat = lijstje_row['MinLat']
+                maxlat = lijstje_row['MaxLat']
+                pnt_id = row['pnt_id']
                 pnt_lon = row['pnt_lon']
                 pnt_lat = row['pnt_lat']
                 punten.append([boorid,locatie,minlon,maxlon,minlat,maxlat,pnt_id,pnt_lon,pnt_lat])
-                #print(boorid)
-    return print(pd.DataFrame(punten,columns=[boorid,locatie,minlon,maxlon,minlat,maxlat,pnt_id,pnt_lon,pnt_lat]))
-kopel()
+    return pd.DataFrame(punten,columns=['boorid','locatie','minlon','maxlon','minlat','maxlat','pnt_id','pnt_lon','pnt_lat'])
+
+
+print(meetpuntenkoppelen(puntenlist,inactieveputtendf, 150))
+#meetpuntenkoppelen().to_csv('test.csv',index=False)
