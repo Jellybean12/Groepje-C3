@@ -4,3 +4,11 @@
 .idea/**
 # Heel het mapje .ipynb_checkpoints
 .ipynb_checkpoints/**
+# Heel het mapje venv
+venv/**
+# Een file die Mike met z'n Apple krijgt
+.DS_store*
+# Heel de map met stuff die je kan ignoren waarin ik dingen probeer
+ignorestuffvanfien/**
+
+.idea/workspace.xml
