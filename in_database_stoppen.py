@@ -17,7 +17,7 @@ def insert_with_progress(df):
             cdf.to_sql('boor_locatie', con=con, if_exists='append', index=False)
             pbar.update(chunksize)
 
-
-df_inactief = pd.read_csv("inactieve_putten.csv")
+# is nu leeg, want je moet niet zomaar weer in de database kunnen doen
+df_inactief = pd.read_csv("")
 
 insert_with_progress(df_inactief)
