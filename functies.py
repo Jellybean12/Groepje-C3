@@ -155,5 +155,5 @@ def meetpuntenkoppelen(datasetmeetpunten,datasetboorlocatie,radius):
 
 
 #print(meetpuntenkoppelen(sqldataset,inactieveputtendf, 1500000))
-def koppelmeetpuntenmetboorlocaties(datasetmeetpunten,datasetboorlocatie,radius,bestandsnaam,)
-    meetpuntenkoppelen(datasetmeetpunten,datasetboorlocatie,radius).to_csv((bestandsnaam'.csv',index=False)
+#def koppelmeetpuntenmetboorlocaties(datasetmeetpunten,datasetboorlocatie,radius,bestandsnaam):
+#    meetpuntenkoppelen(datasetmeetpunten,datasetboorlocatie,radius).to_csv((bestandsnaam'.csv',index=False)
