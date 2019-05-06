@@ -51,7 +51,10 @@ def meetpuntenkoppelen(datasetmeetpunten,datasetboorlocatie,radius):
 #def koppelmeetpuntenmetboorlocaties(datasetmeetpunten,datasetboorlocatie,radius,bestandsnaam,)
 #    meetpuntenkoppelen(datasetmeetpunten,datasetboorlocatie,radius).to_csv(bestandsnaam'.csv',index=False)
 
-test123 = pd.DataFrame({"pnt_lon":[6.85581],"pnt_lat":[52.35096],"Locatie":['N/A'],"Boring":["N/A"]})
-boorlocatie = radiusbepaler(test123, 1000)
+grondwaterontrekkinggebied = pd.DataFrame({"pnt_lon":[6.85581],"pnt_lat":[52.35096],"Locatie":['N/A'],"Boring":["N/A"]})
+#boorlocatie = radiusbepaler(test123, 1000)
 #print(boorlocatie.head())
-print(meetpuntenkoppelen(sqldataset,test123,125))
+datameetpunten = meetpuntenkoppelen(sqldataset,grondwaterontrekkinggebied,1250)
+metingen = pd.read_sql_query('Select * From meting limit 100000',engine)
+for id in datameetpunten['pnt_id']:
+    if id == metingen['pnt_id']:
