@@ -59,21 +59,21 @@ print(datameetpunten)
 sqlquerykopel = ''
 #for id in datameetpunten('pnt_id'):
 #    pd.read_sql_query('',engine)
-dfpntidmeting = pd.DataFrame()
+
 select_query = "select * from meting where pnt_id = "
 metingen = []
+temp123 = pd.DataFrame()
 for id in datameetpunten['pnt_id']:
     id2 = "'" + id + "'"
     var = select_query + id2
     result = pd.read_sql_query(var,engine)
-    #print(result)
-    id3 = result['id']
-    print(id3)
-    pnt_id = result['pnt_id']
-    datum = result['datum']
-    meting = result['meting']
-    sat_id = result['sat_id']
-    metingen.append([id3, pnt_id, datum, meting, sat_id])
-    print(metingen)
-temp123 = pd.DataFrame(metingen,columns=['id3', 'pnt_id', 'datum', 'meting', 'sat_id'])
-print(temp123)
+    for index, bla in result.iterrows():
+        id = bla['id']
+        pnt_id = bla['pnt_id']
+        datum2 = bla['datum']
+        meting = bla['meting']
+        sat_id = bla['sat_id']
+        metingen.append([id, pnt_id, datum2, meting, sat_id])
+        #print(metingen)
+dfpntidmeting = pd.DataFrame(metingen,columns=['id','pnt_id','datum','meting','sat_id'])
+print(dfpntidmeting)
