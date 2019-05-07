@@ -18,12 +18,12 @@ def radiusbepaler (dataset,meters):
         graden = (meters / 30.92) / 3600
         return graden
     for row in dataset:
-        boorid = endlist["BoorID"] = dataset.loc[:, 'Boring']
+        boorid = endlist["BoorID"] = dataset.loc[:, 'boor_id']
         locatie = endlist["Locatie"] = dataset.loc[:, 'Locatie']
-        maxlon = endlist["MaxLon"] = dataset.loc[:, 'pnt_lon'] + GradenNaarMeters(meters)
-        minlon = endlist["MinLon"] = dataset.loc[:, 'pnt_lon'] - GradenNaarMeters(meters)
-        maxlat = endlist["MaxLat"] = dataset.loc[:, 'pnt_lat'] + GradenNaarMeters(meters)
-        minlat = endlist["MinLat"] = dataset.loc[:, 'pnt_lat'] - GradenNaarMeters(meters)
+        maxlon = endlist["MaxLon"] = dataset.loc[:, 'boor_lon'] + GradenNaarMeters(meters)
+        minlon = endlist["MinLon"] = dataset.loc[:, 'boor_lon'] - GradenNaarMeters(meters)
+        maxlat = endlist["MaxLat"] = dataset.loc[:, 'boor_lat'] + GradenNaarMeters(meters)
+        minlat = endlist["MinLat"] = dataset.loc[:, 'boor_lat'] - GradenNaarMeters(meters)
     return endlist
 
 
@@ -49,7 +49,7 @@ def meetpuntenkoppelen(datasetmeetpunten,datasetboorlocatie,radius):
 #########vana dit punt is er verandering in vergelijking met mike.py#########
 
 #Dit is een tijdelijke work around voor niet schone data, dus punten waar je alleen de coordinaten hebt maar bijvoorbeeld niet de locatie en boornummer
-grondwaterontrekkinggebied = pd.DataFrame({"pnt_lon":[6.85581],"pnt_lat":[52.35096],"Locatie":['N/A'],"Boring":["N/A"]})
+grondwaterontrekkinggebied = pd.DataFrame({"boor_lon":[6.85581],"boor_lat":[52.35096],"Locatie":['N/A'],"boor_id":["N/A"]})
 #dit zijn de instellingen
 datameetpunten = meetpuntenkoppelen(sqldataset,grondwaterontrekkinggebied,30)
 print(datameetpunten)
