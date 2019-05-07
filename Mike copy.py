@@ -46,6 +46,8 @@ def meetpuntenkoppelen(datasetmeetpunten,datasetboorlocatie,radius):
                 punten.append([boorid,locatie,minlon,maxlon,minlat,maxlat,pnt_id,pnt_lon,pnt_lat])
     return pd.DataFrame(punten,columns=['boorid','locatie','minlon','maxlon','minlat','maxlat','pnt_id','pnt_lon','pnt_lat'])
 
+#########vana dit punt is er verandering in vergelijking met mike.py#########
+
 #Dit is een tijdelijke work around voor niet schone data, dus punten waar je alleen de coordinaten hebt maar bijvoorbeeld niet de locatie en boornummer
 grondwaterontrekkinggebied = pd.DataFrame({"pnt_lon":[6.85581],"pnt_lat":[52.35096],"Locatie":['N/A'],"Boring":["N/A"]})
 #dit zijn de instellingen
