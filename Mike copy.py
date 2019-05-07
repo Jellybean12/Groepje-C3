@@ -54,4 +54,5 @@ def meetpuntenkoppelen(datasetmeetpunten,datasetboorlocatie,radius):
 test123 = pd.DataFrame({"pnt_lon":[6.85581],"pnt_lat":[52.35096],"Locatie":['N/A'],"Boring":["N/A"]})
 boorlocatie = radiusbepaler(test123, 1000)
 #print(boorlocatie.head())
-print(meetpuntenkoppelen(sqldataset,test123,125))
+puntid = meetpuntenkoppelen(sqldataset,test123,125)
+print(puntid)
