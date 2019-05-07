@@ -1,2 +1,19 @@
+# gitignore
 
+
+# Heel het mapje .idea
+
+.idea/**
 .idea/workspace.xml
+# Heel het mapje .ipynb_checkpoints
+
+.ipynb_checkpoints/**
+
+# Heel het mapje venv
+
+venv/**
+
+# Een file die Mike met z'n Apple krijgt
+.DS_store*
+ignorestuffvanfien/**
+
