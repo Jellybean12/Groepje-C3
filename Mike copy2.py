@@ -18,7 +18,8 @@ pd.set_option('display.max_columns',10)
 ###########SQL stukje###########
 engine = create_engine('postgresql://postgres:Welkom01!@10.30.1.10:5432/POC')
 sqldataset = pd.read_sql_query('Select * From pnt_locatie',engine)
-sqldatasetboor = pd.read_sql_query("Select * From boor_locatie where locatie = 'Oude Hengelosedijk, Enschede'",engine)
+sqldatasetboor = pd.read_sql_query("Select * From boor_locatie where locatie = 'Hofdijk (ten westen van Haimersweg), Enschede'",engine)
+engine.dispose()
 print(sqldatasetboor)
 
 def radiusbepaler (dataset,meters):
