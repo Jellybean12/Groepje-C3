@@ -1,6 +1,15 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 from sqlalchemy import create_engine
+
+desired_width=320
+
+pd.set_option('display.width', desired_width)
+
+np.set_printoptions(linewidth=desired_width)
+
+pd.set_option('display.max_columns',10)
 
 #testdatafile
 #inactieveputtendf= pd.read_csv('inactieve_putten - page 1 2.csv',sep=',')
@@ -9,8 +18,8 @@ from sqlalchemy import create_engine
 ###########SQL stukje###########
 engine = create_engine('postgresql://postgres:Welkom01!@10.30.1.10:5432/POC')
 sqldataset = pd.read_sql_query('Select * From pnt_locatie',engine)
-sqldatasetboor = pd.read_sql_query('Select * From boor_locatie limit 1;',engine)
-#print('bruh')
+sqldatasetboor = pd.read_sql_query("Select * From boor_locatie where locatie = 'Oude Hengelosedijk, Enschede'",engine)
+print(sqldatasetboor)
 
 def radiusbepaler (dataset,meters):
     #radiusbepaler zorgt ervoor dat er een dataframe gevult met de boorlocaties en de desbetreffende radius in meters wordt gereturned
@@ -75,3 +84,12 @@ for id in datameetpunten['pnt_id']:
 #deze dataframe zorgt dat de data bruikbaar is voor de volgende toepassingen
 dfpntidmeting = pd.DataFrame(metingentijdelijklijstje,columns=['id','pnt_id','datum','meting','sat_id'])
 print(dfpntidmeting)
+
+
+def maxdaling():
+    return (dfpntidmeting['meting'].min())
+def maxstijging():
+    return(dfpntidmeting['meting'].max())
+def gemdaling():
+    return(dfpntidmeting['meting'].mean())
+print('maxdaling: ',maxdaling(),'Meter ','maxstijging: ',maxstijging(),'Meter ','gemdaling: ',gemdaling(),'Meter')
