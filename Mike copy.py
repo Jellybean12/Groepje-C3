@@ -18,12 +18,12 @@ def radiusbepaler (dataset,meters):
         graden = (meters / 30.92) / 3600
         return graden
     for row in dataset:
-        boorid = endlist["BoorID"] = dataset.loc[:, 'Boring']
+        boorid = endlist["BoorID"] = dataset.loc[:, 'boor_id']
         locatie = endlist["Locatie"] = dataset.loc[:, 'Locatie']
-        maxlon = endlist["MaxLon"] = dataset.loc[:, 'pnt_lon'] + GradenNaarMeters(meters)
-        minlon = endlist["MinLon"] = dataset.loc[:, 'pnt_lon'] - GradenNaarMeters(meters)
-        maxlat = endlist["MaxLat"] = dataset.loc[:, 'pnt_lat'] + GradenNaarMeters(meters)
-        minlat = endlist["MinLat"] = dataset.loc[:, 'pnt_lat'] - GradenNaarMeters(meters)
+        maxlon = endlist["MaxLon"] = dataset.loc[:, 'boor_lon'] + GradenNaarMeters(meters)
+        minlon = endlist["MinLon"] = dataset.loc[:, 'boor_lon'] - GradenNaarMeters(meters)
+        maxlat = endlist["MaxLat"] = dataset.loc[:, 'boor_lat'] + GradenNaarMeters(meters)
+        minlat = endlist["MinLat"] = dataset.loc[:, 'boor_lat'] - GradenNaarMeters(meters)
     return endlist
 
 
@@ -46,13 +46,31 @@ def meetpuntenkoppelen(datasetmeetpunten,datasetboorlocatie,radius):
                 punten.append([boorid,locatie,minlon,maxlon,minlat,maxlat,pnt_id,pnt_lon,pnt_lat])
     return pd.DataFrame(punten,columns=['boorid','locatie','minlon','maxlon','minlat','maxlat','pnt_id','pnt_lon','pnt_lat'])
 
+#########vana dit punt is er verandering in vergelijking met mike.py#########
 
-#print(meetpuntenkoppelen(sqldataset,inactieveputtendf, 1500000))
-#def koppelmeetpuntenmetboorlocaties(datasetmeetpunten,datasetboorlocatie,radius,bestandsnaam,)
-#    meetpuntenkoppelen(datasetmeetpunten,datasetboorlocatie,radius).to_csv(bestandsnaam'.csv',index=False)
+#Dit is een tijdelijke work around voor niet schone data, dus punten waar je alleen de coordinaten hebt maar bijvoorbeeld niet de locatie en boornummer
+grondwaterontrekkinggebied = pd.DataFrame({"boor_lon":[6.85581],"boor_lat":[52.35096],"Locatie":['N/A'],"boor_id":["N/A"]})
+#dit zijn de instellingen
+datameetpunten = meetpuntenkoppelen(sqldataset,grondwaterontrekkinggebied,30)
+print(datameetpunten)
 
-test123 = pd.DataFrame({"pnt_lon":[6.85581],"pnt_lat":[52.35096],"Locatie":['N/A'],"Boring":["N/A"]})
-boorlocatie = radiusbepaler(test123, 1000)
-#print(boorlocatie.head())
-puntid = meetpuntenkoppelen(sqldataset,test123,125)
-print(puntid)
+#dit is de select query die alle meetpunten sorteerd op punt id
+select_query = "select * from meting where pnt_id = "
+#tijdelijk lijstje
+metingentijdelijklijstje = []
+#eerste for loop zorgt voor de raw data die daarna nog per row uitgezocht moet worden zodra de tweede for loop klaar is -
+# dus per row gaat hij naar de volgende punt id en daar alle raw data van pakken
+for id in datameetpunten['pnt_id']:
+    id2 = "'" + id + "'"
+    var = select_query + id2
+    result = pd.read_sql_query(var,engine)
+    for index, row in result.iterrows():
+        id = row['id']
+        pnt_id = row['pnt_id']
+        datum2 = row['datum']
+        meting = row['meting']
+        sat_id = row['sat_id']
+        metingentijdelijklijstje.append([id, pnt_id, datum2, meting, sat_id])
+#deze dataframe zorgt dat de data bruikbaar is voor de volgende toepassingen
+dfpntidmeting = pd.DataFrame(metingentijdelijklijstje,columns=['id','pnt_id','datum','meting','sat_id'])
+print(dfpntidmeting)

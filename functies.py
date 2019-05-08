@@ -90,7 +90,7 @@ def chunker(seq, size):
     # from http://stackoverflow.com/a/434328
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
-def insert_with_progress(df):
+def insert_with_progress(df,tabel):
     #maak connectie met database
     con = create_engine('postgresql://postgres:Welkom01!@localhost:5432/POC')
     # set chunksize
@@ -98,7 +98,7 @@ def insert_with_progress(df):
     with tqdm(total=len(df)) as pbar:
         for i, cdf in enumerate(chunker(df, chunksize)):
             # chunked df toevoegen aan database in tabel meting
-            cdf.to_sql('meting', con=con, if_exists='append', index=False)
+            cdf.to_sql(tabel, con=con, if_exists='append', index=False)
             pbar.update(chunksize)
 
 
