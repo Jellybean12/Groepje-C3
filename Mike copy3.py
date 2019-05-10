@@ -1,3 +1,4 @@
+#Dit is er nodig
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -23,7 +24,7 @@ def allesineen(boorid, radiusinmeter):
     booridaddon = "'" + booridtostr + "'"
     booridcompletequery = sqldatasetboorquery + booridaddon
     sqldatasetboor = pd.read_sql_query(booridcompletequery, engine)
-    print('DEVINFO: ',sqldatasetboor)
+    print('DEVINFO info van boorlocatie: ',sqldatasetboor)
 
     def radiusbepaler(dataset, meters):
         # radiusbepaler zorgt ervoor dat er een dataframe gevult met de boorlocaties en de desbetreffende radius in meters wordt gereturned
@@ -40,7 +41,7 @@ def allesineen(boorid, radiusinmeter):
             minlon = endlist["MinLon"] = dataset.loc[:, 'boor_lon'] - GradenNaarMeters(meters)
             maxlat = endlist["MaxLat"] = dataset.loc[:, 'boor_lat'] + GradenNaarMeters(meters)
             minlat = endlist["MinLat"] = dataset.loc[:, 'boor_lat'] - GradenNaarMeters(meters)
-        print('DEVINFO: ',endlist.head())
+        print('DEVINFO info max en minlon : ',endlist.head())
         return endlist
 
     # print(radiusbepaler(sqldatasetboor,100))
@@ -64,7 +65,7 @@ def allesineen(boorid, radiusinmeter):
                     pnt_lat = row['pnt_lat']
                     punten.append([boorid, locatie, minlon, maxlon, minlat, maxlat, pnt_id, pnt_lon, pnt_lat])
         returndata =  pd.DataFrame(punten, columns=['boorid', 'locatie', 'minlon', 'maxlon', 'minlat', 'maxlat', 'pnt_id', 'pnt_lon', 'pnt_lat'])
-        print('DEVINFO: ',returndata.head())
+        print('DEVINFO meetpuntenkopellen: ',returndata.head())
         return returndata
     #########vana dit punt is er verandering in vergelijking met mike.py#########
 
@@ -73,7 +74,7 @@ def allesineen(boorid, radiusinmeter):
         {"boor_lon": [6.85581], "boor_lat": [52.35096], "Locatie": ['N/A'], "boor_id": ["N/A"]})
     # dit zijn de instellingen
     datameetpunten = meetpuntenkoppelen(sqldataset, sqldatasetboor, radiusinmeter)
-    print('DEVINFO: ',datameetpunten.head())
+    #print('DEVINFO resulaten: ',datameetpunten.head())
 
     # dit is de select query die alle meetpunten sorteerd op punt id
     select_query = "select * from meting where pnt_id = "
@@ -94,7 +95,7 @@ def allesineen(boorid, radiusinmeter):
             metingentijdelijklijstje.append([id, pnt_id, datum2, meting, sat_id])
     # deze dataframe zorgt dat de data bruikbaar is voor de volgende toepassingen
     dfpntidmeting = pd.DataFrame(metingentijdelijklijstje, columns=['id', 'pnt_id', 'datum', 'meting', 'sat_id'])
-    print('DEVINFO: ',dfpntidmeting)
+    print('DEVINFO meeting info: ',dfpntidmeting)
 
     def maxdaling():
         return (dfpntidmeting['meting'].min())
@@ -108,4 +109,4 @@ def allesineen(boorid, radiusinmeter):
     return print('maxdaling: ', maxdaling(), 'Meter ', 'maxstijging: ', maxstijging(), 'Meter ', 'gemdaling: ', gemdaling(),
           'Meter')
 
-allesineen(355, 100)
+allesineen(358, 100)
