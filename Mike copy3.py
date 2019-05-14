@@ -15,7 +15,7 @@ pd.set_option('display.max_columns',10)
 #testdatafile
 #inactieveputtendf= pd.read_csv('inactieve_putten - page 1 2.csv',sep=',')
 #puntenlist = pd.read_csv('prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv')
-def allesineen(boorid, radiusinmeter):
+def allesineen(boorid, radiusinmeter, radiusgroot):
     ###########SQL stukje###########
     engine = create_engine('postgresql://postgres:Welkom01!@10.30.1.10:5432/POC')
     sqldataset = pd.read_sql_query('Select * From pnt_locatie', engine)
@@ -26,7 +26,7 @@ def allesineen(boorid, radiusinmeter):
     sqldatasetboor = pd.read_sql_query(booridcompletequery, engine)
     print('DEVINFO info van boorlocatie: ',sqldatasetboor)
 
-    def radiusbepaler(dataset, meters):
+    def radiusbepaler(dataset, meters,):
         # radiusbepaler zorgt ervoor dat er een dataframe gevult met de boorlocaties en de desbetreffende radius in meters wordt gereturned
         endlist = pd.DataFrame()
 
@@ -67,14 +67,46 @@ def allesineen(boorid, radiusinmeter):
         returndata =  pd.DataFrame(punten, columns=['boorid', 'locatie', 'minlon', 'maxlon', 'minlat', 'maxlat', 'pnt_id', 'pnt_lon', 'pnt_lat'])
         print('DEVINFO meetpuntenkopellen: ',returndata.head())
         return returndata
-    #########vana dit punt is er verandering in vergelijking met mike.py#########
+    def meetpuntenkoppelengroot(datasetmeetpunten, datasetboorlocatie, radiusinmetergroot):
+        # deze functie zorgt ervoor dat de meetpunten gekoppeld worden aan een boorlocatie zodra die binnen de opgegeven radius zit
+        punten = []
+        meting = radiusbepaler(datasetboorlocatie, radiusgroot)
+        for index, row in datasetmeetpunten.iterrows():
+            for lijstje_index, lijstje_row in meting.iterrows():
+                if row['pnt_lon'] <= lijstje_row['MaxLon'] and row['pnt_lon'] >= lijstje_row['MinLon'] and row[
+                    'pnt_lat'] <= lijstje_row['MaxLat'] and row['pnt_lat'] >= lijstje_row['MinLat']:
+                    boorid = lijstje_row['BoorID']
+                    locatie = lijstje_row['Locatie']
+                    minlongroot = lijstje_row['MinLon']
+                    maxlongroot = lijstje_row['MaxLon']
+                    minlatgroot = lijstje_row['MinLat']
+                    maxlatgroot = lijstje_row['MaxLat']
+                    pnt_id = row['pnt_id']
+                    pnt_lon = row['pnt_lon']
+                    pnt_lat = row['pnt_lat']
+                    punten.append([boorid, locatie, minlongroot, maxlongroot, minlatgroot, maxlatgroot, pnt_id, pnt_lon, pnt_lat])
+        returndata =  pd.DataFrame(punten, columns=['boorid', 'locatie', 'minlongroot', 'maxlongroot', 'minlatgroot', 'maxlatgroot', 'pnt_id', 'pnt_lon', 'pnt_lat'])
+        print('DEVINFO meetpuntenkopellen radiusgroot: ',returndata)
+        return returndata
+
+
 
     # Dit is een tijdelijke work around voor niet schone data, dus punten waar je alleen de coordinaten hebt maar bijvoorbeeld niet de locatie en boornummer
     grondwaterontrekkinggebied = pd.DataFrame(
         {"boor_lon": [6.85581], "boor_lat": [52.35096], "Locatie": ['N/A'], "boor_id": ["N/A"]})
     # dit zijn de instellingen
     datameetpunten = meetpuntenkoppelen(sqldataset, sqldatasetboor, radiusinmeter)
+    datameetpuntengroot = meetpuntenkoppelengroot(sqldataset, sqldatasetboor, radiusgroot)
     #print('DEVINFO resulaten: ',datameetpunten.head())
+
+#    for id in datameetpunten['pnt_id']:
+#        if id in datameetpuntengroot['pnt_id']:
+#            idvanpunt = "'" + id + "'"
+#            datameetpuntengroot.drop([idvanpunt])
+    cond = datameetpuntengroot['pnt_id'].isin(datameetpunten['pnt_id']) == True
+    datameetpuntengroot.drop(datameetpunten[cond].index, inplace=True)
+    print(datameetpuntengroot)
+
 
     # dit is de select query die alle meetpunten sorteerd op punt id
     select_query = "select * from meting where pnt_id = "
@@ -109,4 +141,4 @@ def allesineen(boorid, radiusinmeter):
     return print('maxdaling: ', maxdaling(), 'Meter ', 'maxstijging: ', maxstijging(), 'Meter ', 'gemdaling: ', gemdaling(),
           'Meter')
 
-allesineen(358, 100)
+allesineen(358, 100, 200)
