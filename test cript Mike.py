@@ -4,11 +4,13 @@ import numpy as np
 from sqlalchemy import create_engine
 
 engine = create_engine('postgresql://postgres:Welkom01!@10.30.1.10:5432/POC')
-sqldataset = pd.read_sql_query('Select * From pnt_locatie', engine)
+#sqldataset = pd.read_sql_query('Select * From pnt_locatie', engine)
 sqldataset2 = pd.read_sql_query("Select * From pnt_locatie WHERE pnt_id='L373252P179009' OR pnt_id='L373296P178121'", engine)
-sqldataset3 = pd.read_sql_query("Select * From pnt_locatie WHERE pnt_id='L373252P179009' OR pnt_id='L373296P178121' OR pnt_id='L373415P178584'", engine)
+sqldataset3 = pd.read_sql_query("Select * From pnt_locatie WHERE pnt_id='L373252P179009' OR pnt_id='L373415P178584' OR pnt_id='L373296P178121'", engine)
 datameetpunten = sqldataset2
 datameetpuntengroot = sqldataset3
+print(sqldataset2)
+print(sqldataset3)
 #for id in datameetpunten['pnt_id']:
 #    print(id)
 #    print(datameetpuntengroot['pnt_id'])
