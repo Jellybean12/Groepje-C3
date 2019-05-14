@@ -1,0 +1,796 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Programmeren voor data science - Supervised learning\n",
+    "## Lineaire regressie"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 79,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# altijd handig\n",
+    "\n",
+    "%config IPCompleter.greedy = True\n",
+    "%matplotlib inline"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# data understanding en preparatie\n",
+    "We gebruiken de dataset over de klanten van Windyhome. Importeer de analytische dataset en prepareer deze zo dat je sklearn kunt gebruiken om supervised machine learning algoritmes uit te kunnen voeren in sklearn. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 80,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#importeer pandas en numpy\n",
+    "\n",
+    "import pandas as pd\n",
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 81,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# importeer de dataset windyhome_analytisch.csv als Dataframe 'df'\n",
+    "dataset = 'windyhome_analytisch.csv'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 82,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = pd.read_csv(dataset)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Exploreer de dataset. Zoek uit welke features (kolommen) wel en welke niet bruikbaar zijn in sklearn. \n",
+    "Zoek uit welke features inhoudelijk niet relevant zijn om mee te nemen in onze voorspellingen."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# dataexploratie\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### opschonen dataframe\n",
+    "Verwijder de volgende kolommen uit het Dataframe: 'Unnamed: 0', 'customer.id', 'content_1', 'content_2', 'content_3','content_4', 'content_5', 'content_6', 'content_7', 'content_8','content_9'."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['Unnamed: 0', 'customer.id', 'content_1', 'content_2', 'content_3',\n",
+       "       'content_4', 'content_5', 'content_6', 'content_7', 'content_8',\n",
+       "       'content_9', 'express.no.transactions', 'express.total.spend',\n",
+       "       'metro.no.transactions', 'metro.total.spend',\n",
+       "       'superstore.no.transactions', 'superstore.total.spend',\n",
+       "       'extra.no.transactions', 'extra.total.spend', 'fandf.no.transactions',\n",
+       "       'fandf.total.spend', 'petrol.no.transactions', 'petrol.total.spend',\n",
+       "       'direct.no.transactions', 'direct.total.spend', 'gender', 'affluency',\n",
+       "       'county'],\n",
+       "      dtype='object')"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "columns = ['express.no.transactions', 'express.total.spend',\n",
+    "       'metro.no.transactions', 'metro.total.spend',\n",
+    "       'superstore.no.transactions', 'superstore.total.spend',\n",
+    "       'extra.no.transactions', 'extra.total.spend', 'fandf.no.transactions',\n",
+    "       'fandf.total.spend', 'petrol.no.transactions', 'petrol.total.spend',\n",
+    "       'direct.no.transactions', 'direct.total.spend', 'gender', 'affluency',\n",
+    "       'county']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = df[columns]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Lineaire regressie met 2 features (dimensies)\n",
+    "Gebruik lineaire regressie om te voorspellen hoe de welvaart ('affluency') wordt beïnvloed door het totaalbedrag dat een klant uitgeeft aan brandstof ('petrol.total.spend')."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Definieer de afhankelijke feature (de variabele die wordt voorspeld) als y1 en de onafhankelijke feature als x1."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 51,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x1 = df[['petrol.total.spend']]\n",
+    "y1 = df['affluency']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 54,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "ytest = df[['affluency']]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 84,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "pandas.core.series.Series"
+      ]
+     },
+     "execution_count": 84,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "type(y1)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Affluency is een ordinale variabele die is aangegeven in tekst (very low, low, mid, high, very high). sklearn werkt alleen met numerieke data. We gaan daarom eerst deze tekst omzetten naar getallen. Hiervoor gebruiken we de klasse LabelEncoder uit het preprocessing package van sklearn. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 66,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.preprocessing import LabelEncoder"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 85,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "le = LabelEncoder()\n",
+    "#le.fit(y)\n",
+    "\n",
+    "y1_no_label = le.fit_transform(y1)\n",
+    "\n",
+    "#Use le.inverse_transform([0,1,2]) to map back"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 86,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['High', 'Low', 'Mid', 'Very High', 'Very Low']"
+      ]
+     },
+     "execution_count": 86,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "list(le.classes_)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 87,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([2, 2, 1, ..., 4, 2, 1], dtype=int64)"
+      ]
+     },
+     "execution_count": 87,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "y1_no_label"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### dataset opdelen\n",
+    "Verdeel de data in een trainset en een testset. \n",
+    "Gebruik de klasse train_test_split."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 70,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.model_selection import train_test_split"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 88,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x_train, x_test, y_train, y_test = train_test_split (x1,y1_no_label, test_size=0.3, random_state = 89 , stratify = y1_no_label)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Regressiemodel\n",
+    "Stel het regressiemodel op. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 89,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.linear_model import LinearRegression"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 90,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "lm = LinearRegression() "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Voer het model uit en interpreteer de uitkomsten."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 91,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "model = lm.fit(x_train,y_train)  #model trainen\n",
+    "Coefficients = lm.coef_          #helling\n",
+    "Intercept = lm.intercept_        #snijpunt\n",
+    "y_predict = lm.predict(x_test)   #voorspelde waarde\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 92,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[ 1.55581527  1.55524127  1.53672774 ...,  1.55442386  1.55441796\n",
+      "  1.54524136]\n",
+      "[2 1 2 ..., 0 3 2]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(y_predict)\n",
+    "print(y_test)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 93,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[ -5.08466550e-06]\n",
+      "1.55588651019\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(lm.coef_)\n",
+    "print(lm.intercept_)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 94,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 95,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "0.836722814525\n",
+      "1.04167662501\n",
+      "1.02062560472\n",
+      "-8.03359734514e-06\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(mean_absolute_error(y_test, y_predict))\n",
+    "print(mean_squared_error(y_test, y_predict))\n",
+    "print(np.sqrt(mean_squared_error(y_test, y_predict)))\n",
+    "print(r2_score(y_test, y_predict))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lineaire regressie - 3 dimensies\n",
+    "Voer een lineair regressiemodel uit om te voorspellen hoe de welvaart wordt voorspeld door het totaal dat klanten uitgeven in een superstore en door het totaal dat ze uitgeven aan brandstof. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 96,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x2 = df[['superstore.total.spend', 'petrol.total.spend']]\n",
+    "y2 = df[['affluency']]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 97,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "C:\\Users\\p68931265\\AppData\\Local\\Continuum\\anaconda3\\lib\\site-packages\\sklearn\\preprocessing\\label.py:111: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples, ), for example using ravel().\n",
+      "  y = column_or_1d(y, warn=True)\n"
+     ]
+    }
+   ],
+   "source": [
+    "le = LabelEncoder()\n",
+    "#le.fit(y)\n",
+    "\n",
+    "y2_no_label = le.fit_transform(y2)\n",
+    "\n",
+    "#Use le.inverse_transform([0,1,2]) to map back"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 98,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['High', 'Low', 'Mid', 'Very High', 'Very Low']"
+      ]
+     },
+     "execution_count": 98,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "list(le.classes_)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 99,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([2, 2, 1, ..., 4, 2, 1], dtype=int64)"
+      ]
+     },
+     "execution_count": 99,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "y2_no_label"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 100,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x_train, x_test, y_train, y_test = train_test_split (x2,y2_no_label, test_size=0.3, random_state = 89 , stratify = y2_no_label)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 101,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "lm = LinearRegression() "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 102,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "model = lm.fit(x_train,y_train)  #model trainen\n",
+    "Coefficients = lm.coef_          #helling\n",
+    "Intercept = lm.intercept_        #snijpunt\n",
+    "y_predict = lm.predict(x_test)   #voorspelde waarde\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 103,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[ 1.55539512  1.55484425  1.53755815 ...,  1.55509506  1.55505996\n",
+      "  1.54435314]\n",
+      "[2 1 2 ..., 0 3 2]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(y_predict)\n",
+    "print(y_test)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 104,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[ -3.27634340e-07  -5.08205565e-06]\n",
+      "1.55680797181\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(lm.coef_)\n",
+    "print(lm.intercept_)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 105,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "0.836724594312\n",
+      "1.04168891291\n",
+      "1.02063162449\n",
+      "-1.98299636263e-05\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(mean_absolute_error(y_test, y_predict))\n",
+    "print(mean_squared_error(y_test, y_predict))\n",
+    "print(np.sqrt(mean_squared_error(y_test, y_predict)))\n",
+    "print(r2_score(y_test, y_predict))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Lineaire regressie - n-dimensionaal\n",
+    "Voorspel de welvaart van een klant (affluency) op basis van de features in je data. 1 y-waarde wordt voorspeld door een array van x-waarden. Gebruik hiervoor een lineair regressiemodel"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 115,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x_veel = df[['express.no.transactions', 'express.total.spend',\n",
+    "       'metro.no.transactions', 'metro.total.spend',\n",
+    "       'superstore.no.transactions', 'superstore.total.spend',\n",
+    "       'extra.no.transactions', 'extra.total.spend', 'fandf.no.transactions',\n",
+    "       'fandf.total.spend', 'petrol.no.transactions', 'petrol.total.spend',\n",
+    "       'direct.no.transactions', 'direct.total.spend']]\n",
+    "y_veel = df['affluency']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 116,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "le = LabelEncoder()\n",
+    "#le.fit(y)\n",
+    "\n",
+    "y_veel_no_label = le.fit_transform(y_veel)\n",
+    "\n",
+    "#Use le.inverse_transform([0,1,2]) to map back"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 117,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['High', 'Low', 'Mid', 'Very High', 'Very Low']"
+      ]
+     },
+     "execution_count": 117,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "list(le.classes_)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 118,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([2, 2, 1, ..., 4, 2, 1], dtype=int64)"
+      ]
+     },
+     "execution_count": 118,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "y_veel_no_label"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 119,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x_train, x_test, y_train, y_test = train_test_split (x_veel,y_veel_no_label, test_size=0.3, random_state = 89 , stratify = y_veel_no_label)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 120,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "lm = LinearRegression() "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 121,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "model = lm.fit(x_train,y_train)  #model trainen\n",
+    "Coefficients = lm.coef_          #helling\n",
+    "Intercept = lm.intercept_        #snijpunt\n",
+    "y_predict = lm.predict(x_test)   #voorspelde waarde\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 113,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[ 1.56141683  1.56961498  1.55926232 ...,  1.55873155  1.56823045\n",
+      "  1.56335566]\n",
+      "[2 1 2 ..., 0 3 2]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(y_predict)\n",
+    "print(y_test)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 114,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[ -1.74394869e-05   5.41857374e-06  -3.79331151e-05   5.40671407e-07\n",
+      "  -6.86002818e-05  -1.99089033e-07  -4.22074446e-04   2.47517638e-06\n",
+      "   1.30583607e-04  -9.28715241e-07  -3.01826479e-04  -1.97570948e-06\n",
+      "  -2.49098991e-04  -3.54205345e-07]\n",
+      "1.58489650724\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(lm.coef_)\n",
+    "print(lm.intercept_)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "0.836893598174\n",
+      "1.04211558331\n",
+      "1.02084062581\n",
+      "-0.000429432923555\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(mean_absolute_error(y_test, y_predict))\n",
+    "print(mean_squared_error(y_test, y_predict))\n",
+    "print(np.sqrt(mean_squared_error(y_test, y_predict)))\n",
+    "print(r2_score(y_test, y_predict))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
