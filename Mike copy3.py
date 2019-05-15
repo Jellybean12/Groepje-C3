@@ -24,7 +24,7 @@ def allesineen(boorid, radiusinmeter, radiusgroot):
     booridaddon = "'" + booridtostr + "'"
     booridcompletequery = sqldatasetboorquery + booridaddon
     sqldatasetboor = pd.read_sql_query(booridcompletequery, engine)
-    print('DEVINFO info van boorlocatie: ',sqldatasetboor)
+    #print('DEVINFO info van boorlocatie: ',sqldatasetboor)
 
     def radiusbepaler(dataset, meters,):
         # radiusbepaler zorgt ervoor dat er een dataframe gevult met de boorlocaties en de desbetreffende radius in meters wordt gereturned
@@ -41,7 +41,7 @@ def allesineen(boorid, radiusinmeter, radiusgroot):
             minlon = endlist["MinLon"] = dataset.loc[:, 'boor_lon'] - GradenNaarMeters(meters)
             maxlat = endlist["MaxLat"] = dataset.loc[:, 'boor_lat'] + GradenNaarMeters(meters)
             minlat = endlist["MinLat"] = dataset.loc[:, 'boor_lat'] - GradenNaarMeters(meters)
-        print('DEVINFO info max en minlon : ',endlist.head())
+        #print('DEVINFO info max en minlon : ',endlist.head())
         return endlist
 
     # print(radiusbepaler(sqldatasetboor,100))
@@ -65,8 +65,9 @@ def allesineen(boorid, radiusinmeter, radiusgroot):
                     pnt_lat = row['pnt_lat']
                     punten.append([boorid, locatie, minlon, maxlon, minlat, maxlat, pnt_id, pnt_lon, pnt_lat])
         returndata =  pd.DataFrame(punten, columns=['boorid', 'locatie', 'minlon', 'maxlon', 'minlat', 'maxlat', 'pnt_id', 'pnt_lon', 'pnt_lat'])
-        print('DEVINFO meetpuntenkopellen: ',returndata.head())
+        #print('DEVINFO meetpuntenkopellen: ',returndata.head())
         return returndata
+    print('25% done')
     def meetpuntenkoppelengroot(datasetmeetpunten, datasetboorlocatie, radiusinmetergroot):
         # deze functie zorgt ervoor dat de meetpunten gekoppeld worden aan een boorlocatie zodra die binnen de opgegeven radius zit
         punten = []
@@ -86,7 +87,7 @@ def allesineen(boorid, radiusinmeter, radiusgroot):
                     pnt_lat = row['pnt_lat']
                     punten.append([boorid, locatie, minlongroot, maxlongroot, minlatgroot, maxlatgroot, pnt_id, pnt_lon, pnt_lat])
         returndata =  pd.DataFrame(punten, columns=['boorid', 'locatie', 'minlongroot', 'maxlongroot', 'minlatgroot', 'maxlatgroot', 'pnt_id', 'pnt_lon', 'pnt_lat'])
-        print('DEVINFO meetpuntenkopellen radiusgroot: ',returndata)
+        #print('DEVINFO meetpuntenkopellen radiusgroot: ',returndata)
         return returndata
 
 
@@ -98,37 +99,48 @@ def allesineen(boorid, radiusinmeter, radiusgroot):
     datameetpunten = meetpuntenkoppelen(sqldataset, sqldatasetboor, radiusinmeter)
     datameetpuntengroot = meetpuntenkoppelengroot(sqldataset, sqldatasetboor, radiusgroot)
     #print('DEVINFO resulaten: ',datameetpunten.head())
-
+    print('50% done')
 #    for id in datameetpunten['pnt_id']:
 #        if id in datameetpuntengroot['pnt_id']:
 #            idvanpunt = "'" + id + "'"
 #            datameetpuntengroot.drop([idvanpunt])
-    cond = datameetpuntengroot['pnt_id'].isin(datameetpunten['pnt_id']) == True
-    datameetpuntengroot.drop(datameetpunten[cond].index, inplace=True)
-    print(datameetpuntengroot)
+    #print('----------------------------')
+    #print('klein')
+    #print(datameetpunten)
+    #print('----------------------------')
+    #print('groot')
+    #print(datameetpuntengroot)
+    #print('----------------------------')
 
+    datameetpunten_merge = datameetpunten.append(datameetpuntengroot, ignore_index=True)
 
-    # dit is de select query die alle meetpunten sorteerd op punt id
-    select_query = "select * from meting where pnt_id = "
-    # tijdelijk lijstje
-    metingentijdelijklijstje = []
-    # eerste for loop zorgt voor de raw data die daarna nog per row uitgezocht moet worden zodra de tweede for loop klaar is -
-    # dus per row gaat hij naar de volgende punt id en daar alle raw data van pakken
-    for id in datameetpunten['pnt_id']:
-        id2 = "'" + id + "'"
-        var = select_query + id2
-        result = pd.read_sql_query(var, engine)
+    #print('merge')
+    #print(datameetpunten_merge)
+    #print('----------------------------')
+
+    datameetpunten_merge = datameetpunten_merge.drop_duplicates(subset='pnt_id', keep=False)
+
+    #print(datameetpunten_merge)
+
+    def getmetingen(df):
+        # Gebruikt het dataframe die aangemaakt is door de functie meetpuntenkoppelen
+        engine = create_engine('postgresql://postgres:Welkom01!@10.30.1.10:5432/POC')
+        templist = []
+        ids = "', '".join(df['pnt_id'])
+        select_query = """select * from meting where pnt_id in ('""" + ids + """')"""
+        result = pd.read_sql_query(select_query, engine)
         for index, row in result.iterrows():
             id = row['id']
             pnt_id = row['pnt_id']
             datum2 = row['datum']
             meting = row['meting']
             sat_id = row['sat_id']
-            metingentijdelijklijstje.append([id, pnt_id, datum2, meting, sat_id])
-    # deze dataframe zorgt dat de data bruikbaar is voor de volgende toepassingen
-    dfpntidmeting = pd.DataFrame(metingentijdelijklijstje, columns=['id', 'pnt_id', 'datum', 'meting', 'sat_id'])
-    print('DEVINFO meeting info: ',dfpntidmeting)
-
+            templist.append([id, pnt_id, datum2, meting, sat_id])
+        return pd.DataFrame(templist, columns=['id', 'pnt_id', 'datum', 'meting', 'sat_id'])
+    #print('DEVINFO meeting info: ',dfpntidmeting)
+    dfpntidmeting = getmetingen(datameetpunten)
+    dfpntidmetinggroot = getmetingen(datameetpunten_merge)
+    print('75% done')
     def maxdaling():
         return (dfpntidmeting['meting'].min())
 
@@ -138,7 +150,17 @@ def allesineen(boorid, radiusinmeter, radiusgroot):
     def gemdaling():
         return (dfpntidmeting['meting'].mean())
 
+    def maxdalinggroot():
+        return (dfpntidmetinggroot['meting'].min())
+
+    def maxstijginggroot():
+        return (dfpntidmetinggroot['meting'].max())
+
+    def gemdalinggroot():
+        return (dfpntidmetinggroot['meting'].mean())
+    print('100% done')
     return print('maxdaling: ', maxdaling(), 'Meter ', 'maxstijging: ', maxstijging(), 'Meter ', 'gemdaling: ', gemdaling(),
+          'Meter',' maxdaling van het omliggende gebied: ', maxdalinggroot(), 'Meter ', 'maxstijging van het omliggende gebied: ', maxstijginggroot(), 'Meter ', 'gemdaling van het omliggende gebied: ', gemdalinggroot(),
           'Meter')
 
 allesineen(358, 100, 200)
