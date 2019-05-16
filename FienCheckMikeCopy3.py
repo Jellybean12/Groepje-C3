@@ -65,7 +65,8 @@ def koppel_meetpunten(datasetmeetpunten, datasetboorlocatie, radius) :
     return returndata
 
 def get_metingen(df) :
-    """_____"""
+    """Returnt een dataframe met alle metingen van de punten uit de meegegeven dataframe.
+    Gebruikt het dataframe die aangemaakt is door de functie meetpuntenkoppelen."""
     templist = []
     # Alle pnt_id's uit het meegegeven dataframe worden aan elkaar gekoppeld in één string, en worden gescheiden door een komma
     ids = "', '".join(df['pnt_id'])
@@ -75,11 +76,10 @@ def get_metingen(df) :
     for index, row in result.iterrows():
         id = row['id']
         pnt_id = row['pnt_id']
-        ######## Waarom datum2? #############
-        datum2 = row['datum']
+        datum = row['datum']
         meting = row['meting']
         sat_id = row['sat_id']
-        templist.append([id, pnt_id, datum2, meting, sat_id])
+        templist.append([id, pnt_id, datum, meting, sat_id])
     return pd.DataFrame(templist, columns=['id', 'pnt_id', 'datum', 'meting', 'sat_id'])
 
 def min_measurement(df) :
@@ -92,7 +92,8 @@ def avg_measurement(df) :
     return df['meting'].mean()
 
 def punten_rondom_boorlocatie(boorid, radius_dichtbij, radius_ver_weg) :
-    """Returnt ______ Er wordt een boorid meegegeven. Er wordt twee keer een radius meegegeven. De eerste radius
+    """Print van het nabije gebied en het gebied verder weg van een boorlocatie de maximale stijging, de maximale daling en de gemiddelde daling.
+    Er wordt een boorid meegegeven. Er wordt twee keer een radius meegegeven. De eerste radius
     is de radius voor dichtbij. De tweede is die voor verder weg."""
 
     # Alle punten worden opgehaald
@@ -125,4 +126,4 @@ def punten_rondom_boorlocatie(boorid, radius_dichtbij, radius_ver_weg) :
                  'Meter')
 
 
-punten_rondom_boorlocatie(358, 100, 200)
+punten_rondom_boorlocatie(358, 10, 50)
