@@ -17,3 +17,6 @@ venv/**
 .DS_store*
 ignorestuffvanfien/**
 
+.idea/misc.xml
+.idea/Groepje-C3.iml
+.idea/modules.xml
