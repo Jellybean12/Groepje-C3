@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
+import geopy.distance
 
 # Onderstaand is om pandas de dataframes goed te laten weergeven (zodat er niet maar de helft van een dataframe wordt geprint).
 desired_width = 320
@@ -10,32 +11,38 @@ np.set_printoptions(linewidth=desired_width)
 pd.set_option('display.max_columns', 10)
 
 # De connectie met de database wordt gemaakt.
-print('connectie maken...')
 engine = create_engine('postgresql://postgres:Welkom01!@10.30.1.10:5432/POC')
-print('connectie gemaakt')
 
-def meters_naar_graden(meters) :
-    """Rekent meters om naar graden"""
-    graden = (meters / 30.92) / 3600
-    return graden
+def get_dest_from_point(latitude, longitude, meters, richting) :
+    """Berekent de minimale en maximale latitudes en longitudes van een punt."""
+    kilometer = meters / 1000
 
-def radiusbepaler(dataset, meters) :
+    # Maak het startpunt, door middel van de meegegeven latitude en longitude
+    start = geopy.Point(latitude, longitude)
+
+    # Maak een distance object met de aangegeven meters
+    d = geopy.distance.distance(kilometers=kilometer)
+
+    # Gebruik de destination methode steeds met een andere degree voor bearing, dat verschilt namelijk voor
+    # noord, oost, zuid en west
+    dest = d.destination(point=start, bearing=richting)
+    return dest
+
+def radiusbepaler(boorpunt, meters) :
     """Returnt een dataframe gevuld met de boorlocaties en de desbetreffende radius in meters.
     Er kan een dataset in gestopt worden met boor locaties. Per locatie wordt dan de minimale en de maximale
     lon en lat gereturnd."""
 
-    endlist = pd.DataFrame()
+    endlist = pd.DataFrame(columns=['BoorID', 'Locatie', 'MaxLat', 'MinLat', 'MaxLon', 'MinLon'])
 
-    graden = meters_naar_graden(meters)
+    boorid = boorpunt['boor_id'][0]
+    locatie = boorpunt['locatie'][0]
+    maxlat = get_dest_from_point(boorpunt['boor_lat'][0], boorpunt['boor_lon'][0], meters, 0).latitude
+    minlat = get_dest_from_point(boorpunt['boor_lat'][0], boorpunt['boor_lon'][0], meters, 180).latitude
+    maxlon = get_dest_from_point(boorpunt['boor_lat'][0], boorpunt['boor_lon'][0], meters, 90).longitude
+    minlon = get_dest_from_point(boorpunt['boor_lat'][0], boorpunt['boor_lon'][0], meters, 270).longitude
 
-    for row in dataset:
-        boorid = endlist["BoorID"] = dataset.loc[:, 'boor_id']
-        locatie = endlist["Locatie"] = dataset.loc[:, 'locatie']
-        maxlon = endlist["MaxLon"] = dataset.loc[:, 'boor_lon'] + graden
-        minlon = endlist["MinLon"] = dataset.loc[:, 'boor_lon'] - graden
-        maxlat = endlist["MaxLat"] = dataset.loc[:, 'boor_lat'] + graden
-        minlat = endlist["MinLat"] = dataset.loc[:, 'boor_lat'] - graden
-
+    endlist = endlist.append({'BoorID':boorid, 'Locatie':locatie, 'MaxLat':maxlat, 'MinLat':minlat, 'MaxLon':maxlon, 'MinLon':minlon}, ignore_index=True)
     return endlist
 
 def koppel_meetpunten(datasetboorlocatie, radius) :
@@ -65,8 +72,10 @@ def get_metingen(df) :
     """Returnt een dataframe met alle metingen van de punten uit de meegegeven dataframe.
     Gebruikt het dataframe die aangemaakt is door de functie meetpuntenkoppelen."""
     templist = []
+
     # Alle pnt_id's uit het meegegeven dataframe worden aan elkaar gekoppeld in één string, en worden gescheiden door een komma
     ids = "', '".join(df['pnt_id'])
+
     # Alle pnt_id's uit de meegegeven dataframe worden opgehaald uit de tabel meting
     select_query = """SELECT * FROM meting WHERE pnt_id IN ('""" + ids + """')"""
     result = pd.read_sql_query(select_query, engine)
@@ -97,12 +106,12 @@ def punten_rondom_boorlocatie(boorid, radius_dichtbij, radius_ver_weg) :
     q = "SELECT * FROM boor_locatie WHERE boor_id = "
     booridaddon = "'" + str(boorid) + "'"
     boor_query = q + booridaddon
-    boor_dataset = pd.read_sql_query(boor_query, engine)
+    boorpunt = pd.read_sql_query(boor_query, engine)
 
     # Er worden nu twee dataframes gemaakt. Namelijk de gekoppelde punten binnen de kleine radius
     # en de gekoppelde punten binnen de grote radius.
-    inner_radius_points = koppel_meetpunten(boor_dataset, radius_dichtbij)
-    whole_radius_points = koppel_meetpunten(boor_dataset, radius_ver_weg)
+    inner_radius_points = koppel_meetpunten(boorpunt, radius_dichtbij)
+    whole_radius_points = koppel_meetpunten(boorpunt, radius_ver_weg)
 
     # De dataframes woreden bij elkaar gevoegd en vervolgens worden de duplicates eruit verwijderd
     # Zo ontstaat er een dataframe die punten heeft in de buitenste radius, die niet in de binnenste radius zitten
@@ -120,6 +129,4 @@ def punten_rondom_boorlocatie(boorid, radius_dichtbij, radius_ver_weg) :
                  'gemdaling van het omliggende gebied: ', avg_measurement(measurements_outer_radius),
                  'Meter')
 
-
-
-punten_rondom_boorlocatie(358, 50, 200)
+punten_rondom_boorlocatie(489, 50, 200)
