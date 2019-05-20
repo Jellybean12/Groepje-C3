@@ -122,11 +122,11 @@ def punten_rondom_boorlocatie(boorid, radius_dichtbij, radius_ver_weg) :
     measurements_inner_radius = get_metingen(inner_radius_points)
     measurements_outer_radius = get_metingen(outer_radius_points)
 
-    return print('maxdaling: ', min_measurement(measurements_inner_radius), 'Meter ', 'maxstijging: ', max_measurement(measurements_inner_radius), 'Meter ', 'gemdaling: ',
+    return print('maxdaling: ', min_measurement(measurements_inner_radius), 'Meter ', 'maxstijging: ', max_measurement(measurements_inner_radius), 'Meter ', 'gemdaling/stijging: ',
                  avg_measurement(measurements_inner_radius),
                  'Meter', ' maxdaling van het omliggende gebied: ', min_measurement(measurements_outer_radius), 'Meter ',
                  'maxstijging van het omliggende gebied: ', max_measurement(measurements_outer_radius), 'Meter ',
-                 'gemdaling van het omliggende gebied: ', avg_measurement(measurements_outer_radius),
+                 'gemdaling/stijging van het omliggende gebied: ', avg_measurement(measurements_outer_radius),
                  'Meter')
 
-punten_rondom_boorlocatie(489, 50, 200)
+punten_rondom_boorlocatie(477, 100, 400)
