@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a97711d3-7061-45af-9888-7a5248421cc9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/arima3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arima2.py" beforeDir="false" afterPath="$PROJECT_DIR$/arima2.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,41 +12,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/richtingscoefficient (slope).py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-183">
-              <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/workers.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="1" column="14" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/arima.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="9" selection-start-line="9" selection-end-line="10" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#27#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/arima2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="882">
+              <caret line="42" column="19" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="19" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -70,27 +37,13 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test arima.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
+        <entry file="file://$PROJECT_DIR$/arima.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="294">
-              <caret line="14" column="10" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
+              <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
               <folding>
-                <element signature="e#0#18#0" expanded="true" />
+                <element signature="e#0#27#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Mike copy3.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1102">
-              <caret line="134" column="23" selection-start-line="134" selection-start-column="23" selection-end-line="134" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -116,8 +69,8 @@
         <option value="$PROJECT_DIR$/workers.py" />
         <option value="$PROJECT_DIR$/test arima.py" />
         <option value="$PROJECT_DIR$/arima.py" />
-        <option value="$PROJECT_DIR$/arima2.py" />
         <option value="$PROJECT_DIR$/arima3.py" />
+        <option value="$PROJECT_DIR$/arima2.py" />
       </list>
     </option>
   </component>
@@ -163,7 +116,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.arima3">
+  <component name="RunManager" selected="Python.arima2">
     <configuration name="arima" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Groepje-C3" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -271,8 +224,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.arima3" />
         <item itemvalue="Python.arima2" />
+        <item itemvalue="Python.arima3" />
         <item itemvalue="Python.arima" />
         <item itemvalue="Python.test arima" />
         <item itemvalue="Python.richtingscoefficient (slope)" />
@@ -310,15 +263,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="838" height="1050" extended-state="0" />
+    <frame x="0" y="23" width="1680" height="972" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14443085" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15129596" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4930681" visible="true" weight="0.2780083" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.482821" visible="true" weight="0.37962964" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
       <window_info anchor="bottom" id="Python Console" order="5" sideWeight="0.4954792" weight="0.3263889" />
@@ -382,16 +335,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/arima.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="9" selection-start-line="9" selection-end-line="10" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test arima.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -412,10 +355,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/metingenarima.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-78468" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arima.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/arima2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="882">
+          <caret line="42" column="19" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="19" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
           </folding>

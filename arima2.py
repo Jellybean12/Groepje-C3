@@ -12,16 +12,18 @@ def parser(x):
 series = pd.read_csv('metingenarima.csv', header=0, parse_dates=[0], index_col=0, squeeze=True)
 series = pd.DataFrame(series)
 series['meting'] = series['meting'].multiply(1000)
-#series = series.head(100)
+#print(series.count())
+series = series.head(1000)
 #print(series.head())
 y = series
 
 # The 'MS' string groups the data in buckets by start of the month
-y = y['meting'].resample('MS').mean()
+#y = y['meting'].resample('MS').mean()
 
 # The term bfill means that we use the value before filling in missing values
 y = y.fillna(y.bfill())
-
+print(series.count())
+print(y.count())
 series = y
 X = series.values
 size = int(len(X) * 0.66)
