@@ -4,50 +4,6 @@ from sqlalchemy import create_engine
 
 engine = create_engine('postgresql://postgres:Welkom01!@10.30.1.10:5432/POC')
 
-path_go = "go\\"
-path_zc = "zc\\"
-
-files_go = ["prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv",
-"prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_lage_punten.csv",
-"prov_overijssel_eindhoven_rsat2_asc_xf_v2_ps_hoge_punten.csv",
-"prov_overijssel_eindhoven_rsat2_asc_xf_v2_ps_lage_punten.csv",
-"prov_overijssel_groningen_rsat2_asc_xf_v2_ds_hoge_punten.csv",
-"prov_overijssel_groningen_rsat2_asc_xf_v2_ds_lage_punten.csv",
-"prov_overijssel_groningen_rsat2_asc_xf_v2_ps_hoge_punten.csv",
-"prov_overijssel_groningen_rsat2_asc_xf_v2_ps_lage_punten.csv",
-"prov_overijssel_groningen_rsat2_dsc_xf_v4_ds_hoge_punten.csv",
-"prov_overijssel_groningen_rsat2_dsc_xf_v4_ds_lage_punten.csv",
-"prov_overijssel_groningen_rsat2_dsc_xf_v4_ps_hoge_punten.csv",
-"prov_overijssel_groningen_rsat2_dsc_xf_v4_ps_lage_punten.csv",
-"prov_overijssel_nl_east_env_dsc_v2_ds_punten.csv",
-"prov_overijssel_nl_east_env_dsc_v2_ps_punten.csv",
-"prov_overijssel_nl_east_rsat2_dsc_s3_v3_ds_punten.csv",
-"prov_overijssel_nl_east_rsat2_dsc_s3_v3_ps_punten.csv",
-"prov_overijssel_twente_rsat2_dsc_xf_v4_ds_hoge_punten.csv",
-"prov_overijssel_twente_rsat2_dsc_xf_v4_ds_lage_punten.csv",
-"prov_overijssel_twente_rsat2_dsc_xf_v4_ps_hoge_punten.csv",
-"prov_overijssel_twente_rsat2_dsc_xf_v4_ps_lage_punten.csv"]
-
-files_zc = ["prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_hoge_punten.csv",
-"prov_overijssel_eindhoven_rsat2_asc_xf_v2_ds_lage_punten.csv",
-"prov_overijssel_eindhoven_rsat2_asc_xf_v2_ps_hoge_punten.csv",
-"prov_overijssel_eindhoven_rsat2_asc_xf_v2_ps_lage_punten.csv",
-"prov_overijssel_nl_east_env_dsc_v2_ds_punten.csv",
-"prov_overijssel_nl_east_env_dsc_v2_ps_punten.csv",
-"prov_overijssel_nl_east_rsat2_dsc_s3_v3_ds_punten.csv",
-"prov_overijssel_nl_east_rsat2_dsc_s3_v3_ps_punten.csv",
-"prov_overijssel_twente_rsat2_dsc_xf_v4_ds_hoge_punten.csv",
-"prov_overijssel_twente_rsat2_dsc_xf_v4_ds_lage_punten.csv",
-"prov_overijssel_twente_rsat2_dsc_xf_v4_ps_hoge_punten.csv",
-"prov_overijssel_twente_rsat2_dsc_xf_v4_ps_lage_punten.csv"]
-
-all_filenames = []
-
-for file in files_go :
-    all_filenames.append(path_go + file)
-for file in files_zc :
-    all_filenames.append(path_zc + file)
-
 def remove_underscores(filename):
     """Deze funtie verwijderd de lage streepjes uit een bestandsnaam"""
     new_filename = filename.replace("_", " ")
