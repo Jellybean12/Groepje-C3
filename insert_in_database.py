@@ -8,7 +8,7 @@ def chunker(seq, size):
 
 def insert_with_progress(df, tablename):
     #maak connectie met database
-    con = create_engine('postgrsesql://postgres:Welkom01!@10.30.1.10:5432/POC')
+    con = create_engine('postgresql://postgres:Welkom01!@10.30.1.10:5432/POC')
     # set chunksize
     chunksize = int(len(df) / 10)
     with tqdm(total=len(df)) as pbar:
