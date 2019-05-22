@@ -106,7 +106,7 @@ def reg_plot_all_pnt_meting(df,w,h):
         y='meting')
     ax.set_title(title)
     ax.set_xlabel('Datum')
-    ax.set_ylabel('Gemiddelde daling in meters')
+    ax.set_ylabel('Gemiddelde meting in meters')
     ax.set_xticklabels(df['datum'].astype(str))
 
 #functies om plot te maken
@@ -122,7 +122,7 @@ def line_plot_average_half_year(df,w,h):
         y='gemiddelde',
         legend = False)
     ax.set_xlabel('Datum per halfjaar')
-    ax.set_ylabel('Gemiddelde daling in meters')
+    ax.set_ylabel('Gemiddelde meting in meters')
     ax.set_title(title)
     plt.savefig('C:\\TEMP\\'+loc+'.png')
     #fig = ax.get_figure()
