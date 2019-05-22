@@ -1,3 +1,5 @@
+############# Deze file is aan gewerkt, maar is nooit afgekomen. De file werkt dus niet naar behoren, maar biedt wel mogelijk oplossingen voor de toekomst. #############
+
 from pandas import read_csv
 from pandas import datetime
 from matplotlib import pyplot
