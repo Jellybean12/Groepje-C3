@@ -4,18 +4,11 @@ from sqlalchemy import create_engine
 from scipy.stats import linregress
 from tqdm import tqdm
 
-url = 'postgresql://postgres:Welkom01!@localhost:5432/POC'
+url = 'postgresql://postgres:Welkom01!@10.30.1.10:5432/POC'
 
-def insert_with_progress(df):
-    # set chunksize
-    chunksize = int(len(df) / 100)
-    with tqdm(total=len(df)) as pbar:
-        for i, cdf in enumerate(chunker(df, chunksize)):
-            # chunked df toevoegen aan database
-            cdf.to_sql('temp_locatie_ri', con=url, if_exists='append', index=False)
-            pbar.update(chunksize)
 
 def create_ri_df(sat_id):
+    """Berekent de helling/daling in millimeter per jaar van elk pnt_id. Gebruikt de pnt_id's van het sat_id dat mee is gegeven."""
     templist_ri = []
     query = """select * from meting where sat_id = '""" + sat_id + """'"""
     sqlchunks = pd.read_sql(query, con=url, chunksize=1000)
@@ -36,6 +29,4 @@ def create_ri_df(sat_id):
     return pd.DataFrame(templist_ri, columns=['pnt_id', 'pnt_ri'])
 
 
-
 sat10_ri = create_ri_df('10')
-insert_with_progress(sat10_ri)
