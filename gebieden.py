@@ -39,15 +39,7 @@ conditie = [
 ]
 
 keuze = ['Engelse Werk', 'Hammerflier', 'Manderveen', 'Wierden', 'Hasselo', 'Weerselo', 'Espelose Broek', 'Holten', 'SintJansKlooster', 'Rodenmors']
-voorbeeld['Gebied'] = np.select(conditie, keuze, default=0)
-
-#Bestand opslaan als excel
-#writer = ExcelWriter('eindhoven_rsat2_asc_xf_v2_ds_hoog_gebieden.xlsx')
-#voorbeeld.to_excel(writer, 'Sheet1', index=False)
-#writer.save()
 
 #Scatterplot maken
 scatter = sns.scatterplot(x='pnt_lon', y='pnt_lat', hue='Gebied', data=voorbeeld, legend='full')
 plt.show(scatter)
-
-hallo
