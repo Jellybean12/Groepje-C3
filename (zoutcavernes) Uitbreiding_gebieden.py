@@ -13,7 +13,8 @@ pd.set_option('display.max_columns', 10)
 # De connectie met de database wordt gemaakt.
 engine = create_engine('postgresql://postgres:Welkom01!@10.30.1.10:5432/POC')
 
-def get_dest_from_point(latitude, longitude, meters, richting) :
+
+def get_dest_from_point(latitude, longitude, meters, richting):
     """Berekent de minimale en maximale latitudes en longitudes van een punt."""
     kilometer = meters / 1000
 
@@ -28,7 +29,8 @@ def get_dest_from_point(latitude, longitude, meters, richting) :
     dest = d.destination(point=start, bearing=richting)
     return dest
 
-def radiusbepaler(boorpunt, meters) :
+
+def radiusbepaler(boorpunt, meters):
     """Returnt een dataframe gevuld met de boorlocaties en de desbetreffende radius in meters.
     Er kan een dataset in gestopt worden met boor locaties. Per locatie wordt dan de minimale en de maximale
     lon en lat gereturnd."""
@@ -42,10 +44,13 @@ def radiusbepaler(boorpunt, meters) :
     maxlon = get_dest_from_point(boorpunt['boor_lat'][0], boorpunt['boor_lon'][0], meters, 90).longitude
     minlon = get_dest_from_point(boorpunt['boor_lat'][0], boorpunt['boor_lon'][0], meters, 270).longitude
 
-    endlist = endlist.append({'BoorID':boorid, 'Locatie':locatie, 'MaxLat':maxlat, 'MinLat':minlat, 'MaxLon':maxlon, 'MinLon':minlon}, ignore_index=True)
+    endlist = endlist.append(
+        {'BoorID': boorid, 'Locatie': locatie, 'MaxLat': maxlat, 'MinLat': minlat, 'MaxLon': maxlon, 'MinLon': minlon},
+        ignore_index=True)
     return endlist
 
-def koppel_meetpunten(datasetboorlocatie, radius) :
+
+def koppel_meetpunten(datasetboorlocatie, radius):
     """Koppelt de meetpunten aan een boorlocatie zodra die binnen de opgegeven radius zitten."""
     returndata = pd.DataFrame()
     boor_locaties_met_radius = radiusbepaler(datasetboorlocatie, radius)
@@ -68,7 +73,8 @@ def koppel_meetpunten(datasetboorlocatie, radius) :
 
     return returndata
 
-def get_metingen(df) :
+
+def get_metingen(df):
     """Returnt een dataframe met alle metingen van de punten uit de meegegeven dataframe.
     Gebruikt het dataframe die aangemaakt is door de functie meetpuntenkoppelen."""
     templist = []
@@ -88,16 +94,20 @@ def get_metingen(df) :
         templist.append([id, pnt_id, datum, meting, sat_id])
     return pd.DataFrame(templist, columns=['id', 'pnt_id', 'datum', 'meting', 'sat_id'])
 
-def min_measurement(df) :
+
+def min_measurement(df):
     return df['meting'].min()
 
-def max_measurement(df) :
+
+def max_measurement(df):
     return df['meting'].max()
 
-def avg_measurement(df) :
+
+def avg_measurement(df):
     return df['meting'].mean()
 
-def punten_rondom_boorlocatie(boorid, radius_dichtbij, radius_ver_weg) :
+
+def info_punten_rondom_boorlocatie(boorid, radius_dichtbij, radius_ver_weg):
     """Print van het nabije gebied en het gebied verder weg van een boorlocatie de maximale stijging, de maximale daling en de gemiddelde daling.
     Er wordt een boorid meegegeven. Er wordt twee keer een radius meegegeven. De eerste radius
     is de radius voor dichtbij. De tweede is die voor verder weg."""
@@ -122,11 +132,13 @@ def punten_rondom_boorlocatie(boorid, radius_dichtbij, radius_ver_weg) :
     measurements_inner_radius = get_metingen(inner_radius_points)
     measurements_outer_radius = get_metingen(outer_radius_points)
 
-    return print('maxdaling: ', min_measurement(measurements_inner_radius), 'Meter ', 'maxstijging: ', max_measurement(measurements_inner_radius), 'Meter ', 'gemdaling/stijging: ',
-                 avg_measurement(measurements_inner_radius),
-                 'Meter', ' maxdaling van het omliggende gebied: ', min_measurement(measurements_outer_radius), 'Meter ',
-                 'maxstijging van het omliggende gebied: ', max_measurement(measurements_outer_radius), 'Meter ',
-                 'gemdaling/stijging van het omliggende gebied: ', avg_measurement(measurements_outer_radius),
-                 'Meter')
+    print("Max daling: " , min_measurement(
+        measurements_inner_radius) , " meter\nMax stijging: " , max_measurement(
+        measurements_inner_radius) , " meter\nGem daling/stijging: " , avg_measurement(
+        measurements_inner_radius) , " meter.\nMax daling van het omliggende gebied: " , min_measurement(
+        measurements_outer_radius) , " meter\nMax stijging van het omliggende gebied: " , max_measurement(
+        measurements_outer_radius) , " meter\nGem daling/stijging van het omliggende gebied: " , avg_measurement(
+        measurements_outer_radius) , " meter.")
 
-punten_rondom_boorlocatie(477, 100, 400)
+
+info_punten_rondom_boorlocatie(477, 100, 400)
