@@ -25,23 +25,22 @@ def get_metingen(satid):
     return pd.DataFrame(templist, columns=['id', 'pnt_id', 'datum', 'meting', 'sat_id'])
 
 
-def line_plot_average_half_year(df, type, gebied):
-    """Deze functie maakt gebruikt van per_unique_point_average_halfyear voor de gemiddeldes.
-    Als input wordt er een dataframe, satelliet type, en het gebied van de meting meegegeven"""
-    title = 'Autonome daling ' + str(gebied)
-    ' (' + str(type)
-    ')'
-
-    ax = sns.lineplot(
-        data=df,
-        x='halfjaar',
-        y='gemiddelde', legend=False, size=10)
-    ax.set_xlabel('Datum per halfjaar')
-    ax.set_ylabel('Gemiddelde daling in meters')
-    ax.set_title(title)
+def line_plot_average_half_year(df, locatie):                                                                                                                            
+    """Deze functie maakt een lijn plot van een DataFrame. Gebruik een df die aangemaakt is door de functie Gebruikende datum_ordinal als x en meting als y"""      
+    #data = per_unique_point_average_half_year(df)                                                                                                                   
+    #plt.figure(figsize=(w,h))  
+    title = 'Autonome daling '+str(locatie)+''
+    ax = sns.lineplot(                                                                                                                                              
+        data=df,                                                                                                                                                  
+        x='halfjaar',                                                                                                                                               
+        y='gemiddelde',
+        size=10)                                                                                                                                             
+    ax.set_xlabel('Datum per halfjaar')                                                                                                                             
+    ax.set_ylabel('Gemiddelde meting in meters')                                                                                                                    
+    ax.set_title(title)    
     fig = ax.get_figure()
     fig.set_size_inches(16, 10)
-    plt.show(fig)
+    fig.savefig('C:\\Users\\Proof of Concept\\Pictures\\autonome_daling_ '+str(locatie)+'.png')
 
 
 import gemiddelde_metingen as gem_met
