@@ -36,7 +36,7 @@ def average(df):
     return average
 
 def remove_first_measurement(df):
-    """Deze functie verwijderd per uniek punt in het meegegeven dataframe de eerste (0-)meting."""
+    """Deze functie verwijderd per uniek punt per satelliet in het meegegeven dataframe de eerste (0-)meting."""
     result = df[:]
 
     # Per uniek pnt_id wordt de eerste meting verwijderd uit het dataframe.

@@ -7,6 +7,7 @@ from pandas import ExcelFile
 
 #Functie voor het opschonen van de data
 def schoon(naam):
+    """Deze functie returnt van een meegegeven path+csv alleen de pnt_id, pnt_lat en pnt_lon kolommen."""
     data = pd.read_csv(naam)
     data = data[['pnt_id', 'pnt_lat', 'pnt_lon']]
     return data

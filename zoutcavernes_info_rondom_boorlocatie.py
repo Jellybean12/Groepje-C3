@@ -96,14 +96,17 @@ def get_metingen(df):
 
 
 def min_measurement(df):
+    """Returnt de kleinste meting van het meegegeven dataframe."""
     return df['meting'].min()
 
 
 def max_measurement(df):
+    """Returnt de grootste meting van het meegegeven dataframe."""
     return df['meting'].max()
 
 
 def avg_measurement(df):
+    """Returnt de gemiddelde meting van een meegegeven dataframe."""
     return df['meting'].mean()
 
 
