@@ -14,7 +14,7 @@ def create_dataframe_from_query(url, query) :
     df = pd.read_sql(query, engine)
     return df
 
-# De query gebruikt test_data
+# De query gebruikt test data
 maand_query = """SELECT * 
 FROM meting 
 WHERE pnt_id = 'L450745P202580' OR pnt_id = 'L450805P203520' OR pnt_id = 'L450815P203485' OR pnt_id = 'L450825P203555' OR pnt_id = 'L450870P203080' 
@@ -23,7 +23,7 @@ ORDER BY datum"""
 
 # Engine connectie opzetten en een dataframe maken
 url = 'postgresql://postgres:Welkom01!@10.30.1.10:5432/POC'
-halfjaar_query = """SELECT * FROM meting WHERE pnt_id IN (SELECT pnt_id FROM pnt_locatie WHERE locatie = 'Hammerflier' LIMIT 1000)"""
+halfjaar_query = """SELECT * FROM meting WHERE pnt_id IN (SELECT pnt_id FROM pnt_locatie WHERE locatie = 'Hammerflier' LIMIT 100)"""
 # halfjaar_df = create_dataframe_from_query(url, halfjaar_query)
 
 def average(df):
@@ -36,7 +36,7 @@ def average(df):
     return average
 
 def remove_first_measurement(df):
-    """Deze functie verwijderd per uniek punt per satelliet in het meegegeven dataframe de eerste (0-)meting."""
+    """Deze functie verwijdert per uniek punt per satelliet in het meegegeven dataframe de eerste (0-)meting."""
     result = df[:]
 
     # Per uniek pnt_id wordt de eerste meting verwijderd uit het dataframe.
